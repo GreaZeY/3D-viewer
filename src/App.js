@@ -15,7 +15,7 @@ const App = () => {
   const [text, setText] = useState('Type your text');
   const [stlFile, setStlFile] = useState(null)
   const alert = useAlert()
-  
+
   useEffect(() => {
     // CAMERA
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -34,8 +34,8 @@ const App = () => {
     controls.target = new THREE.Vector3(0, 0, -40);
     controls.update();
 
-    const gridHelper = new THREE.GridHelper( 200, 20 );
-scene.add( gridHelper );
+    const gridHelper = new THREE.GridHelper(200, 20);
+    scene.add(gridHelper);
 
     // RESIZE HAMDLER
     function onWindowResize() {
@@ -46,8 +46,7 @@ scene.add( gridHelper );
     window.addEventListener('resize', onWindowResize);
 
     // INIT HEMISPHERE LIGHT
-    scene.add(new THREE.AmbientLight(0xffffff, 1));
-
+    scene.add(new THREE.AmbientLight(0xffffff, 1))
     // SCENE
     scene.background = new THREE.Color(0xffffff);
 
@@ -69,22 +68,23 @@ scene.add( gridHelper );
   // TEXT
   useEffect(() => {
 
-    loader.load('https://threejs.org/examples/fonts/optimer_regular.typeface.json', function (font) {
-
+    loader.load('fonts/optimer.json', function (font) {
+console.log(font);
       const geometry = new TextGeometry(text, {
         font: font,
         size: 5,
         height: 1,
-        curveSegments: 10,
-        bevelEnabled: false,
-        bevelOffset: 0,
-        bevelSegments: 1,
-        bevelSize: 0.3,
-        bevelThickness: 1
+    
       });
       const materials = [
-        new THREE.MeshBasicMaterial({ color: 0xff6600 }), // front
-        new THREE.MeshBasicMaterial({ color: 0xff6600 })
+        new THREE.MeshPhysicalMaterial({
+          transparent:true,
+          opacity:1,
+        }), // front
+        new THREE.MeshPhysicalMaterial({ 
+          color: 0xff660,
+          opacity:1,
+         })
       ];
       textMesh1 = new THREE.Mesh(geometry, materials);
 
@@ -92,7 +92,7 @@ scene.add( gridHelper );
       textMesh1.position.y += 10
       textMesh1.position.x -= 6
       textMesh1.rotation.y = 0.25
-      textMesh1.scale.z=2
+      textMesh1.scale.z = 2
       textMesh1.receiveShadow = true
       scene.add(textMesh1)
     });
@@ -102,27 +102,27 @@ scene.add( gridHelper );
   useEffect(() => {
     if (!stlFile) return
     const material = new THREE.MeshPhysicalMaterial({
-      color: 0xb2ffc8,
+      color: 0xccccc8,
       // envMap: envTexture,
-      metalness: 0.25,
-      roughness: 0.1,
+      metalness: 0.5,
+      roughness: 1,
       opacity: 2,
       transmission: 0.99,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.25
+      clearcoatRoughness: 1
     })
     console.log(stlFile, URL.createObjectURL(stlFile));
     stlLoader.load(
       URL.createObjectURL(stlFile),
       function (geometry) {
         const mesh = new THREE.Mesh(geometry, material)
-        mesh.scale.x=0.2
-        mesh.scale.y=0.2
-        mesh.scale.z=0.2
-        mesh.position.y=0
+        mesh.scale.x = 0.2
+        mesh.scale.y = 0.2
+        mesh.scale.z = 0.2
+        mesh.position.y = 0
         scene.add(mesh)
       },
-      ()=>{
+      () => {
       },
       (error) => {
         console.log(error)
