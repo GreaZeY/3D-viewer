@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@doodle3d/threejs-export-stl": "0.0.5",
     "file-saver": "^2.0.5",
     "react": "^17.0.2",
     "react-alert": "^7.0.3",
