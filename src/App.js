@@ -4,15 +4,23 @@ import * as THREE from "three";
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
+// import { Geometry } from 'three/examples/jsm/geometries/Geometry.js'
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 import { useAlert } from 'react-alert'
+import { saveAs } from 'file-saver';
+import * as exportSTL from '@doodle3d/threejs-export-stl';
+import {AiOutlineImport,AiOutlineDownload} from 'react-icons/ai'
+import {BsDownload} from 'react-icons/bs'
 
-var textMesh1
+// THREEJS variables init
+var textMesh1,STLMesh 
 const loader = new FontLoader();
 const stlLoader = new STLLoader()
 var scene = new THREE.Scene();
+
+
 const App = () => {
-  const [text, setText] = useState('Type your text');
+  const [text, setText] = useState('');
   const [stlFile, setStlFile] = useState(null)
   const alert = useAlert()
 
@@ -65,25 +73,28 @@ const App = () => {
     console.log('scene');
 
   }, [])
-  // TEXT
+
+
+  ////////////////////////////////////////////-------------------- TEXT---------------------////////////////////////////////////////////
   useEffect(() => {
 
     loader.load('fonts/optimer.json', function (font) {
-console.log(font);
       const geometry = new TextGeometry(text, {
         font: font,
-        size: 5,
-        height: 1,
-    
+        size: 6,
+        height: 2,
+        
       });
+      // let color = 'gray'
       const materials = [
-        new THREE.MeshPhysicalMaterial({
-          transparent:true,
-          opacity:1,
+        new THREE.MeshPhongMaterial({
+          color:'gray'
+          
+          // transparent:true,
+          // opacity:0
         }), // front
-        new THREE.MeshPhysicalMaterial({ 
-          color: 0xff660,
-          opacity:1,
+        new THREE.MeshPhongMaterial({ 
+          color: 0x080808
          })
       ];
       textMesh1 = new THREE.Mesh(geometry, materials);
@@ -98,11 +109,11 @@ console.log(font);
     });
   }, [text])
 
-
+///////////////////////////////////-------------------------STL Loader------------------------//////////////////////////////////////////////////
   useEffect(() => {
     if (!stlFile) return
     const material = new THREE.MeshPhysicalMaterial({
-      color: 0xccccc8,
+      color: 0xcccccc,
       // envMap: envTexture,
       metalness: 0.5,
       roughness: 1,
@@ -115,12 +126,12 @@ console.log(font);
     stlLoader.load(
       URL.createObjectURL(stlFile),
       function (geometry) {
-        const mesh = new THREE.Mesh(geometry, material)
-        mesh.scale.x = 0.2
-        mesh.scale.y = 0.2
-        mesh.scale.z = 0.2
-        mesh.position.y = 0
-        scene.add(mesh)
+         STLMesh = new THREE.Mesh(geometry, material)
+        // mesh.scale.x = 0.2
+        // mesh.scale.y = 0.2
+        // mesh.scale.z = 0.2
+        STLMesh.position.y = 0
+        scene.add(STLMesh)
       },
       () => {
       },
@@ -132,18 +143,38 @@ console.log(font);
   }, [stlFile])
 
 
+  //////////////////////////////////////////-------------------------STL exporter-------------------------------////////////////////////////////////////////
+
+  const downloadSTL=()=>{
+    // let singleGeometry = new THREE.BufferGeometry();
+    // STLMesh.updateMatrix()
+    // textMesh1.updateMatrix()
+    // singleGeometry.merge(textMesh1.geometry, STLMesh.matrix);
+    var mergeGeometry = new THREE.BufferGeometry();
+mergeGeometry.merge( textMesh1, textMesh1.matrix );
+mergeGeometry.merge( STLMesh, STLMesh.matrix, 1 );
+
+    const buffer = exportSTL.fromMesh(singleGeometry);
+  const blob = new Blob([buffer], { type: exportSTL.mimeType });
+  saveAs(blob, 'cube.stl');
+
+  }
   return (
     <>
-      <div />
-      <input type='text' value={text} onChange={(e) => {
+      <div className='menu'>
+      {/* <label htmlFor='insertText'>Text</label> */}
+      <input id='insertText'  autoComplete="off"  placeholder='Type your text' type='text' value={text} onChange={(e) => {
         setText(e.target.value)
         scene.remove(textMesh1)
         console.log('gfhg')
       }} />
-
-      <input type='file' onChange={(e) => {
+      <label htmlFor='importSTL'> <AiOutlineImport /> Import STL File</label>
+      <input id='importSTL' hidden type='file' onChange={(e) => {
         setStlFile(e.target.files[0])
       }} />
+
+      <button onClick={downloadSTL}> <BsDownload/> Download STL</button>
+      </div>
     </>
   )
 
