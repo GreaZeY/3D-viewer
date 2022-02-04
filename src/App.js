@@ -77,7 +77,7 @@ const App = () => {
   ////////////////////////////////////////////-------------------- TEXT---------------------////////////////////////////////////////////
   useEffect(() => {
     scene.remove(textMesh1)
-    loader.load('fonts/optimer.json', function (font) {
+    loader.load('fonts/Poppins_Bold.json', function (font) {
       const geometry = new TextGeometry(text, {
         font: font,
         size: 6,
