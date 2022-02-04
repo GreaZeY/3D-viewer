@@ -3,6 +3,62 @@
   padding: 0;
   overflow-x:hidden;
   box-sizing: border-box;
-  background: ;
+  background: transparent;
+  font-size: 1vmax;
 }
 
+.menu{
+  position: fixed;
+  margin-left: 1vmax;
+  height: 5vmax;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.menu button, .menu input{
+  border:none;
+  outline: none;
+}
+
+ .menu input {
+  width: 25vmax;
+  height: 3vmax;
+  font-size: 1.3vmax;
+  padding-top: 0;
+}
+.menu label{
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid rgba(128, 128, 128, 0.425);
+  padding: .5vmax 1vmax;
+  margin-right: 2vmax;
+  cursor: pointer;
+  transition: .5s;
+  margin-top: 1vmax;
+  text-align: center;
+}
+.menu button{
+  font-family: Arial, Helvetica, sans-serif;
+  border: 1px solid rgba(128, 128, 128, 0.425);
+  padding: .5vmax 1vmax;
+  cursor: pointer;
+  transition: .5s;
+  margin-top: 1vmax;
+  text-align: center;
+
+}
+.menu svg{
+  color:green;
+}
+
+.menu button:hover,.menu label:hover  {
+  background:rgba(128, 128, 128, 0.24);
+}
+
+/* input{
+  opacity: 1;
+  top:200%;
+  position: absolute;
+} */
