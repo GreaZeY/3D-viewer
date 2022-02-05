@@ -80,14 +80,6 @@ const App = () => {
 
   //////////////////////--------------------ADD TEXT---------------------////////////////////////////////////////////
   useEffect( () => {
-    if(textMesh1){
-      console.log('removing',textMesh1);
-      textMesh1.geometry.dispose();
-      textMesh1.material.dispose();
-      scene.remove(textMesh1)
-    }
-    
-    console.log('children',scene.children);
     loader.load('fonts/Poppins_Bold.json', font=> {
       const geometry = new TextGeometry(text, {
         font: font,
@@ -97,12 +89,9 @@ const App = () => {
       });
 
       textMesh1 = new THREE.Mesh(geometry, material);
-
-      textMesh1.castShadow = true
-      textMesh1.position.y = 4
-      textMesh1.position.x = -10
-      textMesh1.position.z = 0
-      // textMesh1.scale.z = 2
+      textMesh1.name='3dtext'
+      var selectedObject = scene.getObjectByName(textMesh1.name);
+      scene.remove( selectedObject );
       scene.add(textMesh1)
       var TEXTcontrols = new DragControls([textMesh1], camera, renderer.domElement)
       TEXTcontrols.addEventListener('dragstart', function (event) {
@@ -114,7 +103,6 @@ const App = () => {
         controls.enabled = true
 
       });
-      console.log('after adding text',scene.children);
     });
   }, [text])
 
@@ -134,23 +122,17 @@ const App = () => {
         // STLMesh.rotation.x = - Math.PI / 2
        
         scene.add(STLMesh)
-
-        console.log(STLMesh);
         var STLcontrols = new DragControls([STLMesh], camera, renderer.domElement)
         STLcontrols.addEventListener('dragstart', function (event) {
           controls.enabled = false;
-
         });
 
         STLcontrols.addEventListener('dragend', function (event) {
           controls.enabled = true
-
         });
-
       },
       () => {
-
-
+        
       },
       (error) => {
         alert.error("Can't load this file!")
@@ -162,10 +144,9 @@ const App = () => {
   /////////////////////------------------------Inputs and Buttons-------------------///////////////////////////
   const getText =(e) => {
   let text=e.target.value
-    setTimeout(()=>{
-      console.log(text);
+
       setText(text)
-    },10)
+
    
   }
   
