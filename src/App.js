@@ -16,7 +16,7 @@ import { DragControls } from 'three/examples/jsm/controls/DragControls.js'
 ///////////////////////////------------------Scene Setup-----------------------////////////////////
 
 // THREEJS variables init
-let textMesh1, STLMesh
+let textMesh, STLMesh
 const loader = new FontLoader();
 const exporter = new STLExporter();
 const stlLoader = new STLLoader()
@@ -88,18 +88,20 @@ const App = () => {
 
       });
 
-      textMesh1 = new THREE.Mesh(geometry, material);
-      textMesh1.name='3dtext'
-      var selectedObject = scene.getObjectByName(textMesh1.name);
+      textMesh = new THREE.Mesh(geometry, material);
+      textMesh.name='3dtext'
+      var selectedObject = scene.getObjectByName(textMesh.name);
       scene.remove( selectedObject );
-      scene.add(textMesh1)
-      var TEXTcontrols = new DragControls([textMesh1], camera, renderer.domElement)
-      TEXTcontrols.addEventListener('dragstart', function (event) {
+      scene.add(textMesh)
+      var TEXTcontrols = new DragControls([textMesh], camera, renderer.domElement)
+      
+      // adding drag event on objects
+      TEXTcontrols.addEventListener('dragstart', event=> {
         controls.enabled = false;
 
       });
 
-      TEXTcontrols.addEventListener('dragend', function (event) {
+      TEXTcontrols.addEventListener('dragend',event=> {
         controls.enabled = true
 
       });
