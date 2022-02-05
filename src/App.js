@@ -54,6 +54,7 @@ scene.add(new THREE.PointLight(0xffffff, 0.5))
 scene.background = new THREE.Color(0xffffff);
 
 // FLOOR
+
 //  const plane = new THREE.Mesh(new THREE.BoxGeometry(100, 100,-5), new THREE.MeshBasicMaterial({ color: 'rgba(230, 224, 224, 0.733)' }));
 //  plane.rotation.x = - Math.PI / 2
 //  plane.receiveShadow = true
@@ -103,6 +104,16 @@ const App = () => {
       textMesh1.position.z = 0
       // textMesh1.scale.z = 2
       scene.add(textMesh1)
+      var TEXTcontrols = new DragControls([textMesh1], camera, renderer.domElement)
+      TEXTcontrols.addEventListener('dragstart', function (event) {
+        controls.enabled = false;
+
+      });
+
+      TEXTcontrols.addEventListener('dragend', function (event) {
+        controls.enabled = true
+
+      });
       console.log('after adding text',scene.children);
     });
   }, [text])
@@ -121,16 +132,17 @@ const App = () => {
         // STLMesh.position.x=7
         // STLMesh.position.z = 6
         // STLMesh.rotation.x = - Math.PI / 2
+       
         scene.add(STLMesh)
 
         console.log(STLMesh);
-        var dcontrols = new DragControls([STLMesh], camera, renderer.domElement)
-        dcontrols.addEventListener('dragstart', function (event) {
+        var STLcontrols = new DragControls([STLMesh], camera, renderer.domElement)
+        STLcontrols.addEventListener('dragstart', function (event) {
           controls.enabled = false;
 
         });
 
-        dcontrols.addEventListener('dragend', function (event) {
+        STLcontrols.addEventListener('dragend', function (event) {
           controls.enabled = true
 
         });
@@ -141,14 +153,11 @@ const App = () => {
 
       },
       (error) => {
-        // console.log(error)
         alert.error("Can't load this file!")
       }
     )
   }, [stlFile, alert])
 
-
-  //////////////////////-------------------------STL exporter------------------------////////////////////////////////////////////
 
   /////////////////////------------------------Inputs and Buttons-------------------///////////////////////////
   const getText =(e) => {
@@ -159,6 +168,9 @@ const App = () => {
     },10)
    
   }
+  
+    //////////////////////-------------------------STL exporter------------------------////////////////////////////////////////////
+
   const downloadSTL = () => {
     var str = exporter.parse(scene); // Export the scene
     var blob = new Blob([str], { type: 'text/plain' }); // Generate Blob from the string
