@@ -63,13 +63,13 @@ scene.background = new THREE.Color(0xffffff);
 
 
 
-function animate() {
+const animate=()=> {
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
 document.body.appendChild(renderer.domElement);
 animate();
-///////////////////////////////////////////////
+//////////////////////////-----------------end of scene-----------------////////////////////////////////////////////////////////////////////
 
 const App = () => {
   const [text, setText] = useState('');
@@ -77,12 +77,17 @@ const App = () => {
   const alert = useAlert()
 
 
-  ////////////////////////////////////////////-------------------- TEXT---------------------////////////////////////////////////////////
-  useEffect(() => {
-
-    scene.remove(textMesh1)
-    console.log(scene.children);
-    loader.load('fonts/Poppins_Bold.json', function (font) {
+  //////////////////////--------------------ADD TEXT---------------------////////////////////////////////////////////
+  useEffect( () => {
+    if(textMesh1){
+      console.log('removing',textMesh1);
+      textMesh1.geometry.dispose();
+      textMesh1.material.dispose();
+      scene.remove(textMesh1)
+    }
+    
+    console.log('children',scene.children);
+    loader.load('fonts/Poppins_Bold.json', font=> {
       const geometry = new TextGeometry(text, {
         font: font,
         size: 6,
@@ -98,6 +103,7 @@ const App = () => {
       textMesh1.position.z = 0
       // textMesh1.scale.z = 2
       scene.add(textMesh1)
+      console.log('after adding text',scene.children);
     });
   }, [text])
 
@@ -142,8 +148,17 @@ const App = () => {
   }, [stlFile, alert])
 
 
-  //////////////////////////////////////////-------------------------STL exporter-------------------------------////////////////////////////////////////////
+  //////////////////////-------------------------STL exporter------------------------////////////////////////////////////////////
 
+  /////////////////////------------------------Inputs and Buttons-------------------///////////////////////////
+  const getText =(e) => {
+  let text=e.target.value
+    setTimeout(()=>{
+      console.log(text);
+      setText(text)
+    },10)
+   
+  }
   const downloadSTL = () => {
     var str = exporter.parse(scene); // Export the scene
     var blob = new Blob([str], { type: 'text/plain' }); // Generate Blob from the string
@@ -154,7 +169,7 @@ const App = () => {
     <>
       <div className='menu'>
         {/* <label htmlFor='insertText'>Text</label> */}
-        <input id='insertText' autoComplete="off" placeholder='Type your text' type='text' value={text} onChange={(e) => setText(e.target.value)} />
+        <input id='insertText' autoComplete="off" placeholder='Type your text' type='text' value={text} onChange={getText} />
         <label htmlFor='importSTL'> <AiOutlineImport /> Import File</label>
         <input id='importSTL' hidden type='file' onChange={(e) => {
           setStlFile(e.target.files[0])
