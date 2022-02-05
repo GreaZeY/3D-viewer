@@ -75,7 +75,7 @@ const App = () => {
 
   //////////////////////--------------------ADD TEXT---------------------////////////////////////////////////////////
   useEffect(() => {
-    if (!text) return
+    // if (!text) return
     loader.load('fonts/Poppins_Bold.json', font => {
       const geometry = new TextGeometry(text, {
         font: font,
