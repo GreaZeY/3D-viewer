@@ -160,8 +160,8 @@ const App = () => {
       .then(module => {
         const exporter = new module.STLExporter();
         // let newScene= {...scene}
-        let str = exporter.parse(scene); // Export the scene
-        let blob = new Blob([str], { type: 'text/plain' }); // Generate Blob from the string
+        let str = exporter.parse(scene, { binary: true }); // Export the scene
+        let blob = new Blob([str], { type: 'application/octet-stream' }); // Generate Blob from the string
         saveAs(blob, text ? text + '.stl' : 'export.stl');
       });
 
