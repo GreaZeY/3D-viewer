@@ -7,8 +7,7 @@ This app lets you import 3d models and then you can change things as you want an
 
 # Supported Files
 
-- ### gLTF/GLB
-#### gLTF/GLB is a neutral, open source format. The Khronos Group created this format for 3D web, AR, VR, Games and 3D advertising. It’s the first really well-defined standard for 3D. This file format supports geometry, materials, textures, colors, and animations. This includes PBR (Physical Based Rendering), so shadows and light will appear more realistic. It is based on JSON, so it stores some data in external files like textures (JPEG or PNG), shaders (GLSL), or geometry and animation data (BIN). GLB files store all this data internally. The Khronos groups is continually improving and updating this file format. It is quickly becoming the standard for 3D shopping.
+- gLTF/GLB : gLTF/GLB is a neutral, open source format. The Khronos Group created this format for 3D web, AR, VR, Games and 3D advertising. It’s the first really well-defined standard for 3D. This file format supports geometry, materials, textures, colors, and animations. This includes PBR (Physical Based Rendering), so shadows and light will appear more realistic. It is based on JSON, so it stores some data in external files like textures (JPEG or PNG), shaders (GLSL), or geometry and animation data (BIN). GLB files store all this data internally. The Khronos groups is continually improving and updating this file format. It is quickly becoming the standard for 3D shopping.
 
 - ### FBX
 #### FBX is a proprietary 3D file format. Kardara originally developed this format. AutoDesk then purchased them in 2006 and continued supporting FBX. It is widely used in the film and video game industry. It supports geometry, appearance (color and texture), as well as animations (skeletal and morphs). FBX is most popular for animation and is used as an exchange format between different programs like Maya, 3DSMax, AutoCAD, Roman’s CAD, and others.
