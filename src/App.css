@@ -24,14 +24,13 @@
  color: var(--Pcolor);
 }
 .menu{
-  position: fixed;
   margin-left: 1vmax;
-  width: 100vw;
-  height: 5vmax;
   overflow: hidden;
+  height: 8%;
   display: flex;
   align-items: center;
   align-content: center;
+  z-index: 10;
 }
 
 .menu button, .menu input{
@@ -65,8 +64,9 @@
   text-align: center;
 
 }
-.menu svg{
-  color:green;
+
+svg{
+    background: transparent !important;
 }
 
 .menu button:hover,.menu label:hover  {
@@ -79,9 +79,3 @@
   margin-top: 1vmax;
   margin-right: 2vmax;
 }
-
-/* input{
-  opacity: 1;
-  top:200%;
-  position: absolute;
-} */
