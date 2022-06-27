@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@react-spring/three': ^9.4.5
   '@react-three/drei': ^7.25.5
   '@react-three/fiber': ^7.0.21
   file-saver: ^2.0.5
@@ -14,6 +15,7 @@ specifiers:
   three: ^0.135.0
 
 dependencies:
+  '@react-spring/three': 9.4.5_8d6c034fc45f99f53d675caadedc3ad2
   '@react-three/drei': 7.27.5_cdaafb4a048d5318604bfeacc2314501
   '@react-three/fiber': 7.0.29_03d4586416b86b800151bd7390b3d95a
   file-saver: 2.0.5
