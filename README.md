@@ -1,6 +1,6 @@
-# [3D file viewer]([https://davinciblend.vercel.app/](https://davinciblend.vercel.app/))
+# [3D file viewer](https://davinciblend.vercel.app/)
 
-![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=davinciblend.vercel.app)
+![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=davinciblend.vercel.app)(https://davinciblend.vercel.app/)
 
 This app lets you import 3d models and then you can change things as you want and can be exported as well.
 - You can also use this as a 3d file conversion tool.
