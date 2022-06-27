@@ -1,6 +1,6 @@
 # [3D file viewer]([https://stl-viewer.netlify.app/](https://3-d-viewer.netlify.app/))
 
-![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=davinciblend-vercel-badge)
+![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=3-d-viewer-vercel-badge)
 
 This app lets you import 3d models and then you can change things as you want and can be exported as well.
 - You can also use this as a 3d file conversion tool.
