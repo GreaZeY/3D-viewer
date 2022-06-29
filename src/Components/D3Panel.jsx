@@ -1,42 +1,36 @@
 import { Suspense, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Controls, withControls } from "react-three-gui";
-import { OrbitControls, Environment } from "@react-three/drei";
+import { Environment } from "@react-three/drei";
+import Model from "./Model";
 import Ground from './Ground';
-import D3text from './D3text';
+
 
 const CanvasWithControls = withControls(Canvas);
 
 
-const D3panel = ({ props }) => {
-    const {model} = props
-    const controls = useRef()
-    const guiControls = useRef()
+const D3panel = ({ model, textProps, file }) => {
 
+    const guiControls = useRef()
     return (
       <Controls.Provider>
         <CanvasWithControls
           gl={{ preserveDrawingBuffer: true }}
           camera={{ position: [0, 0, 50] }}
-          style={{ height: "92%" }}
+          style={{ height: "90%" }}
         >
-          <OrbitControls enableDamping ref={controls} />
+          
           <ambientLight intensity={0.5} />
           <Suspense fallback={"<h2>Loading...</h2>"}>
-            <Environment
-              files={"home.hdr"}
-              path={"/assets/hdrMaps/"}
-            />
-            <group ref={model}>
-              <D3text props={props} guiControls={guiControls} />
-            </group>
+            <Environment files={"home.hdr"} path={"/assets/hdrMaps/"} />
+            <Model props={{ model, textProps, file, guiControls }} />
             <Ground />
           </Suspense>
         </CanvasWithControls>
         <div ref={guiControls} style={{ display: "none" }}>
           <Controls
             title={"Controls"}
-            width={200}
+            width={'400'}
             collapsed={true}
             anchor={"top_right"}
           />

@@ -5,7 +5,7 @@
 *{
   margin: 0;
   padding: 0;
-  overflow-x:hidden;
+  font-family: Arial, Helvetica, sans-serif;
   box-sizing: border-box;
   background: transparent;
   font-size: 1vmax;
@@ -45,7 +45,6 @@
   padding-top: 0;
 }
 .menu label{
-  font-family: Arial, Helvetica, sans-serif;
   border: 1px solid var(--color);
   padding: .5vmax 1vmax;
   margin-right: 2vmax;
@@ -55,7 +54,6 @@
   text-align: center;
 }
 .menu button{
-  font-family: Arial, Helvetica, sans-serif;
   border: 1px solid var(--color);
   padding: .5vmax 1vmax;
   cursor: pointer;
@@ -79,3 +77,11 @@ svg{
   margin-top: 1vmax;
   margin-right: 2vmax;
 }
+
+
+.centerRow{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+

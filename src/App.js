@@ -6,26 +6,10 @@ import { BsDownload } from 'react-icons/bs'
 import D3panel from './Components/D3Panel';
 
 const App = () => {
-  const [text, setText] = useState('');
+  const [text, setText] = useState('Pace');
   const [fontSize, setFontSize] = useState(10)
-  const [stlFile, setStlFile] = useState(null)
+  const [file, setFile] = useState(null)
   const model = useRef()
-
-
-
-
-  //////////////////////-------------------------STL exporter------------------------////////////////////////////////////////////
-
-  const downloadSTL = () => {
-
-    import('three/examples/jsm/exporters/STLExporter')
-      .then(module => {
-        const exporter = new module.STLExporter();
-        let str = exporter.parse(model.current, { binary: true }); // Export the scene
-        let blob = new Blob([str], { type: 'text/plain' }); // Generate Blob from the string
-        saveAs(blob, 'export.stl');
-      });
-  }
 
   return (
     <>
@@ -35,14 +19,14 @@ const App = () => {
           <input title='Change Font Size' id='fontInput' type='number' onChange={(e) => setFontSize(e.target.value)} value={fontSize} />
           <label title='Import a file from your system.' htmlFor='importSTL'> <AiOutlineImport /> Import File</label>
           <input id='importSTL' hidden type='file' accept='.stl' onChange={(e) => {
-            setStlFile(e.target.files[0])
+            setFile(e.target.files[0])
           }} />
 
-          <button title='Download this scene' onClick={downloadSTL}> <BsDownload /> Download STL</button>
+          <button title='Download this scene' onClick={() => downloadSTL(model.current)}> <BsDownload /> Download STL</button>
 
         </div>
-
-        <D3panel props={{ model, text, fontSize }}  />
+        <p style={{ textAlign: 'center', color: 'black', fontSize:'.7rem' , height:'2%' }} >Click to drag objects.</p>
+        <D3panel textProps={{ text, fontSize }} file={file} model={model} />
       </div>
     </>
   )
@@ -50,3 +34,15 @@ const App = () => {
 };
 
 export default App;
+
+
+//////////////////////-------------------------STL exporter------------------------////////////////////////////////////////////
+const downloadSTL = (model) => {
+  import('three/examples/jsm/exporters/STLExporter')
+    .then(module => {
+      const exporter = new module.STLExporter();
+      let str = exporter.parse(model, { binary: true }); // Export the scene
+      let blob = new Blob([str], { type: 'text/plain' }); // Generate Blob from the string
+      saveAs(blob, 'export.stl');
+    });
+}

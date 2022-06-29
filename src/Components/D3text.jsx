@@ -4,7 +4,8 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { extend } from "@react-three/fiber";
 import poppins from "./fonts/Poppins.json";
 import { useControl } from "react-three-gui";
-import { useThree } from "@react-three/fiber";
+import { ColorInput } from "./utils/controlComponents";
+// import { useThree } from "@react-three/fiber";
 
 extend({ TextGeometry });
 
@@ -13,12 +14,12 @@ const bevelProps = {
   // bevelThickness: 1,
   // bevelSize: 1,
   // bevelSegments: 100,
-  curveSegments: 100,
+  curveSegments: 10,
 };
 
-const D3text = ({ props, guiControls }) => {
-  const { text, fontSize } = props;
-  const txt3d = useRef();
+const D3text = ({ textProps, guiControls, transform }) => {
+  const { text, fontSize } = textProps;
+  // const txt3d = useRef();
 
   useEffect(() => {
     guiControls.current.style.display = "block";
@@ -26,9 +27,57 @@ const D3text = ({ props, guiControls }) => {
 
   const font = useMemo(() => loadFont(), []);
 
-  const {
-    gl: { domElement },
-  } = useThree();
+  const color = useControl("Color", {
+    type: "custom",
+    value: "black",
+    component: ColorInput,
+  });
+
+  const metalness = useControl("Metalness", {
+    type: "number",
+    value: 1,
+    min: 0,
+    max: 1,
+  });
+
+  const roughness = useControl("Roughness", {
+    type: "number",
+    value: 0,
+    min: 0,
+    max: 1,
+  });
+
+  return (
+    <mesh onClick={(e) => transform.current.attach(e.object)}>
+      <textGeometry
+        args={[
+          text,
+          {
+            font,
+            size: fontSize,
+            height: 1,
+            ...bevelProps,
+          },
+        ]}
+        onUpdate={(geometry) => geometry.center()}
+      />
+      <meshStandardMaterial
+        color={color}
+        metalness={metalness}
+        roughness={roughness}
+      />
+    </mesh>
+  );
+};
+
+export default D3text;
+
+const loadFont = () => new FontLoader().parse(poppins);
+
+
+  // const {
+  //   gl: { domElement },
+  // } = useThree();
 
   // useEffect(() => {
   //   let isDraging = false,
@@ -54,30 +103,3 @@ const D3text = ({ props, guiControls }) => {
 
   //   return () => {};
   // }, []);
-
-  const color = useControl("color", { type: "string", value: "yellow" });
-
-  console.log(color);
-
-  return (
-    <mesh ref={txt3d}>
-      <textGeometry
-        args={[
-          text,
-          {
-            font,
-            size: fontSize,
-            height: 1,
-            ...bevelProps,
-          },
-        ]}
-        onUpdate={(geometry) => geometry.center()}
-      />
-      <meshStandardMaterial color={color} metalness={1} roughness={0} />
-    </mesh>
-  );
-};
-
-export default D3text;
-
-const loadFont = () => new FontLoader().parse(poppins);
