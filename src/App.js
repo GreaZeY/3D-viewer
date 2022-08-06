@@ -25,7 +25,7 @@ const App = () => {
           <button title='Download this scene' onClick={() => downloadSTL(model.current)}> <BsDownload /> Download STL</button>
 
         </div>
-        <p style={{ textAlign: 'center', color: 'black', fontSize:'.7rem' , height:'2%' }} >Click to drag objects.</p>
+        <p className='tip' >Click to control objects in 3D space.</p>
         <D3panel textProps={{ text, fontSize }} file={file} model={model} />
       </div>
     </>

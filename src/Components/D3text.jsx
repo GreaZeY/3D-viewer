@@ -3,6 +3,7 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { extend } from "@react-three/fiber";
 import poppins from "./fonts/Poppins.json";
+import { materialProps } from "./defaulProps";
 
 extend({ TextGeometry });
 
@@ -15,12 +16,13 @@ const bevelProps = {
 };
 
 const D3text = ({ props }) => {
-  const {textProps,color,metalness,roughness} = props
+  const {textProps} = props
+  const {color,metalness,roughness} = materialProps;
   const { text, fontSize } = textProps;
 
   const font = useMemo(() => loadFont(), []);
   return (
-    <mesh >
+    <mesh>
       <textGeometry
         args={[
           text,

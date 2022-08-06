@@ -1,16 +1,18 @@
 import D3text from "./D3text";
 import D3model from "./D3model";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useThree, extend } from "@react-three/fiber";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
 import { OrbitControls } from "@react-three/drei";
 import { useControl } from "react-three-gui";
 import { ColorInput } from "./utils/controlComponents";
+import { materialProps } from "./defaulProps";
 
 extend({ TransformControls });
 
 const Model = ({ props }) => {
   const { model, textProps, file, guiControls } = props;
+  const [selectedObject,setSelectedObject] = useState(null)
   const transform = useRef();
   const controls = useRef();
   const {
@@ -37,35 +39,43 @@ const Model = ({ props }) => {
 
     const color = useControl("Color", {
       type: "custom",
-      value: "black",
+      value: materialProps.color,
       component: ColorInput,
     });
 
     const metalness = useControl("Metalness", {
       type: "number",
-      value: 1,
+      value: materialProps.metalness,
       min: 0,
       max: 1,
     });
 
     const roughness = useControl("Roughness", {
       type: "number",
-      value: 0,
+      value: materialProps.roughness,
       min: 0,
       max: 1,
     });
 
+      useEffect(() => {
+        if(!selectedObject) return
+        selectedObject.material.color.set(color)
+        selectedObject.material.roughness = roughness
+        selectedObject.material.metalness = metalness;
+
+      }, [color, roughness, metalness]);
+
     const attachTransformAndGuiControls =(e)=>{
-      debugger
       transform.current.attach(e.object);
       guiControls.current.style.display = "block";
+      setSelectedObject(e.object);
     }
   return (
     <>
       <OrbitControls enableDamping ref={controls} />
       <object3D ref={model} onClick={attachTransformAndGuiControls}>
-        <D3text props={{ textProps, color, metalness, roughness }} />
-        {file && <D3model file={file} />}
+        <D3text props={{ textProps }} />
+        {file && <D3model props={{ file, model }} />}
       </object3D>
       <group>
         <transformControls
