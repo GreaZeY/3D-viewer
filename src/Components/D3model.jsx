@@ -25,7 +25,7 @@ const loadModel = (props) => {
         geometry.center();
         let STLMesh = new THREE.Mesh(
           geometry,
-          new THREE.MeshStandardMaterial({...materialProps})
+          new THREE.MeshStandardMaterial({ ...materialProps })
         );
         model.current.add(STLMesh);
         // setModel(STLMesh);
