@@ -5,10 +5,11 @@ import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 const bail = "https://d3signer.vercel.app/assets/bails/stl/bail3.stl";
 
-const D3model = ({ file, guiControls }) => {
+const D3model = ({ file }) => {
   const { scene } = useThree();
 
   const object = useMemo(() => loadModel(file, scene), [file]);
+ 
   console.log(object);
 
   return (
@@ -48,3 +49,4 @@ const loadModel = (file, scene) => {
     );
   });
 };
+

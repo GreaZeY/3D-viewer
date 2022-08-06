@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import { useThree, extend } from "@react-three/fiber";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
 import { OrbitControls } from "@react-three/drei";
+import { useControl } from "react-three-gui";
+import { ColorInput } from "./utils/controlComponents";
 
 extend({ TransformControls });
 
@@ -33,24 +35,38 @@ const Model = ({ props }) => {
     }
   }, []);
 
-  console.log(file);
+    const color = useControl("Color", {
+      type: "custom",
+      value: "black",
+      component: ColorInput,
+    });
+
+    const metalness = useControl("Metalness", {
+      type: "number",
+      value: 1,
+      min: 0,
+      max: 1,
+    });
+
+    const roughness = useControl("Roughness", {
+      type: "number",
+      value: 0,
+      min: 0,
+      max: 1,
+    });
+
+    const attachTransformAndGuiControls =(e)=>{
+      debugger
+      transform.current.attach(e.object);
+      guiControls.current.style.display = "block";
+    }
   return (
     <>
       <OrbitControls enableDamping ref={controls} />
-      <group ref={model}>
-        <D3text
-          textProps={textProps}
-          guiControls={guiControls}
-          transform={transform}
-        />
-        {file && (
-          <D3model
-            file={file}
-            guiControls={guiControls}
-            transform={transform}
-          />
-        )}
-      </group>
+      <object3D ref={model} onClick={attachTransformAndGuiControls}>
+        <D3text props={{ textProps, color, metalness, roughness }} />
+        {file && <D3model file={file} />}
+      </object3D>
       <group>
         <transformControls
           ref={transform}
