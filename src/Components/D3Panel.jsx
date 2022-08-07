@@ -2,7 +2,7 @@ import { Suspense, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Controls, withControls } from "react-three-gui";
 import { Environment } from "@react-three/drei";
-import Loader from "./Loader";
+import Loader from "./Loaders/ThreeLoader";
 import Model from "./Model";
 import Ground from "./Ground";
 

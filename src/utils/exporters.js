@@ -1,5 +1,32 @@
 import { saveAs } from "file-saver";
 
+export const exportTypes = ["STL", "OBJ", "GLTF"];
+
+export const exportFile = async (index, model, alert, filename) => {
+  if (!filename) filename = "export";
+  try {
+    if (index === 3) {
+      // await savePng(currDesign, alert);
+    } else {
+      if (index === 0) {
+        await stlExporter(model, filename);
+        return;
+      }
+      if (index === 1) {
+        await objExporter(model, filename);
+        return;
+      }
+      if (index === 2) {
+        await gltfExporter(model, filename);
+        return;
+      }
+    }
+  } catch (e) {
+    console.log(e);
+    // alert.error(e.message);
+  }
+};
+
 export const stlExporter = (model, filename) => {
   import("three/examples/jsm/exporters/STLExporter").then((module) => {
     const exporter = new module.STLExporter();

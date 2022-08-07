@@ -32,16 +32,14 @@
 .menu {
   margin-left: 1vmax;
   position: fixed;
-  overflow: hidden;
   width: 100%;
   height: 8%;
   display: flex;
   align-items: center;
   align-content: center;
-  z-index: 1;
+  z-index: 2;
 }
 
-.menu button,
 .menu input {
   border: none;
   outline: none;
@@ -62,20 +60,24 @@
   transition: .5s;
   margin-top: 1vmax;
   text-align: center;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .menu button {
   border: 1px solid var(--color);
-  padding: .5vmax 1vmax;
+  padding: .28rem;
   cursor: pointer;
   transition: .5s;
   margin-top: 1vmax;
   text-align: center;
-
 }
 
 svg {
   background: transparent !important;
+  margin-right: .5rem;
 }
 
 .menu button:hover,
@@ -101,19 +103,19 @@ svg {
 .tip {
   position: absolute;
   width: 100%;
-  top:10%;
+  top: 10%;
   text-align: center;
   color: black;
   font-size: .7rem;
   height: 2%;
-  z-index:1;
+  z-index: 1;
 }
 
-.drag-n-drop-preview{
+.drag-n-drop-preview {
   position: absolute;
   display: flex;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   background: rgba(0, 0, 0, 0.342);
   height: 100%;
   width: 100%;
@@ -121,7 +123,40 @@ svg {
   text-align: center;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(5px);
   transition: .3s all;
   pointer-events: none;
 }
+
+.drag-n-drop-preview>span {
+  padding: 5rem;
+  font-size: 2vmax;
+  color: white;
+  border: 5px dashed rgb(255, 255, 255);
+  border-radius: 15px;
+  background: var(--color);
+}
+
+/* spinner loader  */
+#loading {
+  border: 4px solid;
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+
+/* spinner loader  end */

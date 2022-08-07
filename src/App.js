@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
 import "./App.css";
-import { AiOutlineImport } from "react-icons/ai";
-import { BsDownload } from "react-icons/bs";
+import { AiOutlineUpload } from "react-icons/ai";
+import Spinner from "./Components/Loaders/Spinner";
 import D3panel from "./Components/D3Panel";
 import { useAlert } from "react-alert";
-import { stlExporter } from "./utils/exporters";
+import { exportTypes, exportFile } from "./utils/exporters";
+import DropDownButton from "./Components/CustomComponents/DropDownButton";
 const App = () => {
   const [text, setText] = useState("Pace");
   const [showDropPreview, setShowDropPreview] = useState(false);
@@ -12,6 +13,7 @@ const App = () => {
   const [files, setFiles] = useState([]);
   const model = useRef();
   const alert = useAlert();
+  const [exportLoading, setExportLoading] = useState(false);
 
   const getDropedFiles = (e) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ const App = () => {
     const Files = [];
     for (let item of e.dataTransfer?.items) {
       let file = item.getAsFile();
-      if (!file.name.includes(".stl")) {
+      if (!file.name.endsWith(".stl")) {
         alert.error(
           // "Please Upload a 3d file (stl, obj, gltf/glb, or fbx)!"
           `${file.name} is not a 3D file!`
@@ -29,23 +31,23 @@ const App = () => {
         Files.push(file);
       }
     }
-    setFiles(prevFiles=>[...prevFiles,...Files]);
+    setFiles((prevFiles) => [...prevFiles, ...Files]);
   };
-  function dragOverHandler(e) {
-    e.preventDefault();
-    // setShowDropPreview(true)
-  }
 
-  console.log(files);
+  const getSelectedIndex = async (index) => {
+    setExportLoading(true);
+    await exportFile(index, model, alert, text);
+    setExportLoading(false);
+  };
 
   return (
     <>
       <div
         onDrop={getDropedFiles}
-        onDragOver={dragOverHandler}
+        onDragOver={(e) => e.preventDefault()}
         onDragEnter={() => setShowDropPreview(true)}
         onDragLeave={() => setShowDropPreview(false)}
-        style={{ height: "100vh", background: "#d0d0d0" }}
+        style={{ height: "100vh" }}
       >
         <div className="menu">
           <input
@@ -67,7 +69,7 @@ const App = () => {
           />
           <label title="Import a file from your system." htmlFor="importSTL">
             {" "}
-            <AiOutlineImport /> Import File
+            <AiOutlineUpload /> Import File
           </label>
           <input
             id="importSTL"
@@ -76,23 +78,29 @@ const App = () => {
             multiple
             accept=".stl"
             onChange={(e) => {
-              setFiles(prevFiles=>[...prevFiles,...e.target.files]);
+              setFiles((prevFiles) => [...prevFiles, ...e.target.files]);
             }}
           />
-
-          <button
-            title="Download this scene"
-            onClick={() => stlExporter(model.current, text)}
-          >
-            {" "}
-            <BsDownload /> Download STL
-          </button>
+          <DropDownButton
+            options={exportTypes}
+            loading={exportLoading}
+            loader={
+              <Spinner
+                style={{
+                  width: "1rem",
+                  height: "1rem",
+                  marginRight: ".5rem",
+                }}
+              />
+            }
+            getSelectedIndex={getSelectedIndex}
+          />
         </div>
         <p className="tip">Click to control objects in 3D space.</p>
         <D3panel textProps={{ text, fontSize }} files={files} model={model} />
         {showDropPreview && (
           <div className="drag-n-drop-preview">
-            <p style={{ width: "100%" }}>Upload Model</p>
+            <span>Upload Your Model</span>
           </div>
         )}
       </div>
