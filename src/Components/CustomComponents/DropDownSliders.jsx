@@ -4,7 +4,8 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import Slider from "@material-ui/core/Slider";
 import MenuItem from "@material-ui/core/MenuItem";
-import { commonStyles } from "../Styles.js/commonStyles";
+import { commonStyles } from "../Styles/commonStyles";
+import TextField from "@material-ui/core/TextField";
 
 const DropdownSliders = ({
   items,
@@ -13,9 +14,10 @@ const DropdownSliders = ({
   onChange,
   mins,
   maxs,
+  steps,
 }) => {
   const [currItem, setCurrItem] = useState(0);
-    const classes = commonStyles();
+  const classes = commonStyles();
   return (
     <div style={{ width: "100%" }}>
       <InputLabel
@@ -59,21 +61,22 @@ const DropdownSliders = ({
           <Slider
             aria-label="Sizes"
             onChange={(e, val) => onChange(val, currItem)}
-            step={0.1}
+            step={steps[currItem]}
             style={{ marginRight: "1rem" }}
             min={mins[currItem]}
             max={maxs[currItem]}
             value={values ? values[currItem] || 0 : 0}
-            color="primary"
           />
-          <input
-            className={classes.symbol}
-            style={{ padding: ".2rem", cursor: "text", width: "2rem" }}
+          <TextField
+            inputProps={{
+              type: "number",
+              min: mins[currItem],
+              max: maxs[currItem],
+              step: steps[currItem],
+              className: classes.input,
+            }}
             onChange={(e) => onChange(parseFloat(e.target.value), currItem)}
-            type="number"
-            min={mins[currItem]}
-            max={maxs[currItem]}
-            step={0.1}
+            variant="outlined"
             value={values ? values[currItem] || 0 : 0}
           />
         </div>

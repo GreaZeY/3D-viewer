@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
-import CloudDownload from "@material-ui/icons/CloudDownload";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { AiOutlineDownload } from "react-icons/ai";
@@ -10,7 +9,12 @@ import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuList from "@material-ui/core/MenuList";
-
+const downSvg = {
+  marginTop: "0px",
+  marginRight: ".5rem",
+  fontSize: "1.2rem",
+  strokeWidth: "30",
+};
 const DropDownButton = ({ options, loading, loader, getSelectedIndex }) => {
   const anchorRef = useRef(null);
 
@@ -46,13 +50,7 @@ const DropDownButton = ({ options, loading, loader, getSelectedIndex }) => {
           }}
           onClick={() => getSelectedIndex(selectedIndex)}
         >
-          {loading ? (
-            loader
-          ) : (
-            <AiOutlineDownload
-              style={{ marginTop: "0px", marginRight: ".5rem" }}
-            />
-          )}{" "}
+          {loading ? loader : <AiOutlineDownload style={downSvg} />}{" "}
           {options[selectedIndex]}
         </Button>
         <Button
@@ -89,12 +87,7 @@ const DropDownButton = ({ options, loading, loader, getSelectedIndex }) => {
                       selected={index === selectedIndex}
                       onClick={(e) => handleMenuItemClick(e, index)}
                     >
-                      <AiOutlineDownload
-                        style={{
-                          marginTop: "0px",
-                          marginRight: ".5rem",
-                        }}
-                      />
+                      <AiOutlineDownload style={downSvg} />
                       {option}
                     </MenuItem>
                   ))}

@@ -22,21 +22,9 @@ export const commonStyles = makeStyles({
       color: "red",
     },
   },
-  symbol: {
-    border: "1px solid #ECEBEB",
-    width: "1rem",
-    height: "1rem",
-    display: "flex",
-    alignItems: "center",
-    cursor: "pointer",
-    transition: ".5s",
-    justifyContent: "center",
-    marginRight: ".2rem",
-    color: "gray",
+  input: {
+    padding:".4rem .2rem",
     fontSize: "12px",
-    "&:hover": {
-      border: "1px Solid gray",
-    },
   },
 
   modalStyle: {

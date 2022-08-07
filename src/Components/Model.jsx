@@ -5,7 +5,11 @@ import { useThree, extend } from "@react-three/fiber";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
 import { OrbitControls } from "@react-three/drei";
 import { useControl } from "react-three-gui";
-import { ColorInput } from "../utils/controlComponents";
+import {
+  ColorInput,
+  MaterialControls,
+  ChangeMode,
+} from "./GuiControlsComponents/controlComponents";
 import { materialProps } from "../constants/defaulProps";
 
 extend({ TransformControls });
@@ -45,26 +49,25 @@ const Model = ({ props }) => {
     component: ColorInput,
   });
 
-  const metalness = useControl("Metalness", {
-    type: "number",
-    value: materialProps.metalness,
-    min: 0,
-    max: 1,
+  const materialProperties = useControl("Material Properties", {
+    type: "custom",
+    value: [materialProps.metalness, materialProps.roughness],
+    component: MaterialControls,
   });
 
-  const roughness = useControl("Roughness", {
-    type: "number",
-    value: materialProps.roughness,
-    min: 0,
-    max: 1,
+  const mode = useControl("Mode", {
+    type: "custom",
+    value: "translate",
+    component: ChangeMode,
   });
 
   useEffect(() => {
     if (!selectedObject) return;
+    console.log(materialProperties);
     selectedObject.material.color.set(color);
-    selectedObject.material.roughness = roughness;
-    selectedObject.material.metalness = metalness;
-  }, [color, roughness, metalness]);
+    selectedObject.material.roughness = materialProperties[1];
+    selectedObject.material.metalness = materialProperties[0];
+  }, [color, materialProperties]);
 
   const attachTransformAndGuiControls = (e) => {
     transform.current.attach(e.object);
@@ -77,14 +80,16 @@ const Model = ({ props }) => {
       <object3D ref={model} onClick={attachTransformAndGuiControls}>
         <D3text props={{ textProps }} />
         {files.length &&
-          files.map((file) => <D3model key={file.name} props={{ file, model }} />)}
+          files.map((file) => (
+            <D3model key={file.name} props={{ file, model }} />
+          ))}
       </object3D>
       <group>
         <transformControls
           ref={transform}
           args={[camera, domElement]}
           onUpdate={(e) => e.detach()}
-          // mode={mode}
+          mode={mode}
         />
       </group>
     </>

@@ -6,6 +6,16 @@ import D3panel from "./Components/D3Panel";
 import { useAlert } from "react-alert";
 import { exportTypes, exportFile } from "./utils/exporters";
 import DropDownButton from "./Components/CustomComponents/DropDownButton";
+import { muiTheme } from "./Components/Styles/MuiTheme";
+import { ThemeProvider } from "@material-ui/styles";
+import CustomFileInput from "./Components/CustomComponents/CustomFileInput";
+const upSvg = {
+  marginTop: "0px",
+  marginRight: ".5rem",
+  fontSize: "1.2rem",
+  strokeWidth: "30",
+};
+
 const App = () => {
   const [text, setText] = useState("Pace");
   const [showDropPreview, setShowDropPreview] = useState(false);
@@ -41,7 +51,7 @@ const App = () => {
   };
 
   return (
-    <>
+    <ThemeProvider theme={muiTheme}>
       <div
         onDrop={getDropedFiles}
         onDragOver={(e) => e.preventDefault()}
@@ -67,16 +77,15 @@ const App = () => {
             onChange={(e) => setFontSize(e.target.value)}
             value={fontSize}
           />
-          <label title="Import a file from your system." htmlFor="importSTL">
-            {" "}
-            <AiOutlineUpload /> Import File
-          </label>
-          <input
-            id="importSTL"
-            hidden
-            type="file"
-            multiple
-            accept=".stl"
+          <CustomFileInput
+            label="Import"
+            style={{
+              fontSize: "1rem",
+              borderRadius: "5px",
+              cursor: "pointer",
+              height: "2.2rem",
+            }}
+            icon={<AiOutlineUpload style={upSvg} />}
             onChange={(e) => {
               setFiles((prevFiles) => [...prevFiles, ...e.target.files]);
             }}
@@ -104,7 +113,7 @@ const App = () => {
           </div>
         )}
       </div>
-    </>
+    </ThemeProvider>
   );
 };
 
