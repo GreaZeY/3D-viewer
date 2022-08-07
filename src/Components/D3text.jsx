@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { extend } from "@react-three/fiber";
 import poppins from "./fonts/Poppins.json";
-import { materialProps } from "./defaulProps";
+import { materialProps } from "../constants/defaulProps";
 
 extend({ TextGeometry });
 

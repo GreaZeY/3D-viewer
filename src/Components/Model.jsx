@@ -5,13 +5,13 @@ import { useThree, extend } from "@react-three/fiber";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
 import { OrbitControls } from "@react-three/drei";
 import { useControl } from "react-three-gui";
-import { ColorInput } from "./utils/controlComponents";
-import { materialProps } from "./defaulProps";
+import { ColorInput } from "../utils/controlComponents";
+import { materialProps } from "../constants/defaulProps";
 
 extend({ TransformControls });
 
 const Model = ({ props }) => {
-  const { model, textProps, file, guiControls } = props;
+  const { model, textProps, files, guiControls } = props;
   const [selectedObject, setSelectedObject] = useState(null);
   const transform = useRef();
   const controls = useRef();
@@ -76,7 +76,8 @@ const Model = ({ props }) => {
       <OrbitControls ref={controls} />
       <object3D ref={model} onClick={attachTransformAndGuiControls}>
         <D3text props={{ textProps }} />
-        {file && <D3model props={{ file, model }} />}
+        {files.length &&
+          files.map((file) => <D3model key={file.name} props={{ file, model }} />)}
       </object3D>
       <group>
         <transformControls

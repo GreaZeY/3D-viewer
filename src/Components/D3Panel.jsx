@@ -8,7 +8,7 @@ import Ground from "./Ground";
 
 const CanvasWithControls = withControls(Canvas);
 
-const D3panel = ({ model, textProps, file }) => {
+const D3panel = ({ model, textProps, files }) => {
   const guiControls = useRef();
   return (
     <Controls.Provider>
@@ -20,7 +20,7 @@ const D3panel = ({ model, textProps, file }) => {
         <ambientLight intensity={0.5} />
         <Suspense fallback={<Loader />}>
           <Environment files={"home.hdr"} path={"/assets/hdrMaps/"} />
-          <Model props={{ model, textProps, file, guiControls }} />
+          <Model props={{ model, textProps, files, guiControls }} />
           <Ground />
         </Suspense>
       </CanvasWithControls>
