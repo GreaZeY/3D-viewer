@@ -46,7 +46,7 @@ const App = () => {
 
   const getSelectedIndex = async (index) => {
     setExportLoading(true);
-    await exportFile(index, model, alert, text);
+    await exportFile(index, model.current, alert, text);
     setExportLoading(false);
   };
 

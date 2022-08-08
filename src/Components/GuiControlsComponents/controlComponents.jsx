@@ -42,7 +42,7 @@ export const MaterialControls = ({ value, setValue }) => {
 };
 
 export const ChangeMode = ({ value, setValue }) => (
-  <FormControl style={{ width: "100%", marginTop: ".7rem" }}>
+  <FormControl style={{ width: "25%", marginTop: ".7rem" }}>
     <InputLabel>Mode</InputLabel>
     <Select
       value={value}
