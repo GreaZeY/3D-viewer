@@ -1,4 +1,4 @@
-# [3D file viewer](https://blend-da-vinci.vercel.app/)
+# [3D file viewer(Blend da vinci)](https://blend-da-vinci.vercel.app/)
 
 [![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=blend-da-vinci.vercel.app)](https://blend-da-vinci.vercel.app/)
 
