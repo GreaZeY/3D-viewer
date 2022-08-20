@@ -9,14 +9,18 @@
     "@react-spring/three": "^9.4.5",
     "@react-three/drei": "^7.25.5",
     "@react-three/fiber": "^7.0.21",
+    "@reduxjs/toolkit": "^1.8.5",
     "file-saver": "^2.0.5",
     "react": "^17.0.2",
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",
     "react-dom": "^17.0.1",
     "react-icons": "^4.3.1",
+    "react-redux": "^8.0.2",
     "react-scripts": "5.0.0",
     "react-three-gui": "^0.4.2",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.1",
     "three": "^0.135.0"
   },
   "scripts": {

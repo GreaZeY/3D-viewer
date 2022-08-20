@@ -10,6 +10,7 @@ import {
   MaterialControls,
   ChangeMode,
 } from "./GuiControlsComponents/controlComponents";
+import { useSelector } from "react-redux";
 import { materialProps } from "../constants/defaulProps";
 
 extend({ TransformControls });
@@ -17,6 +18,9 @@ extend({ TransformControls });
 const Model = ({ props }) => {
   const { model, textProps, files, guiControls } = props;
   const [selectedObject, setSelectedObject] = useState(null);
+
+  const tool = useSelector((state) => state.tool);
+
   const transform = useRef();
   const controls = useRef();
   const {
@@ -55,11 +59,11 @@ const Model = ({ props }) => {
     component: MaterialControls,
   });
 
-  const mode = useControl("Mode", {
-    type: "custom",
-    value: "translate",
-    component: ChangeMode,
-  });
+  // const mode = useControl("Mode", {
+  //   type: "custom",
+  //   value: "translate",
+  //   component: ChangeMode,
+  // });
 
   useEffect(() => {
     if (!selectedObject) return;
@@ -70,6 +74,7 @@ const Model = ({ props }) => {
   }, [color, materialProperties]);
 
   const attachTransformAndGuiControls = (e) => {
+    if(tool.type!=='transform') return
     transform.current.attach(e.object);
     guiControls.current.style.display = "block";
     setSelectedObject(e.object);
@@ -84,14 +89,12 @@ const Model = ({ props }) => {
             <D3model key={file.name} props={{ file, model }} />
           ))}
       </object3D>
-      <group>
-        <transformControls
-          ref={transform}
-          args={[camera, domElement]}
-          onUpdate={(e) => e.detach()}
-          mode={mode}
-        />
-      </group>
+      <transformControls
+        ref={transform}
+        args={[camera, domElement]}
+        onUpdate={(e) => e.detach()}
+        mode={tool.type==='transform'?tool.selectedTool.toLowerCase():'translate'}
+      />
     </>
   );
 };

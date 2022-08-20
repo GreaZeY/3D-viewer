@@ -5,6 +5,8 @@ import { Environment } from "@react-three/drei";
 import Loader from "./Loaders/ThreeLoader";
 import Model from "./Model";
 import Ground from "./Ground";
+import { Provider } from "react-redux";
+import store from "../store";
 
 const CanvasWithControls = withControls(Canvas);
 
@@ -14,14 +16,16 @@ const D3panel = ({ model, textProps, files }) => {
     <Controls.Provider>
       <CanvasWithControls
         gl={{ preserveDrawingBuffer: true }}
-        camera={{ position: [0, 0, 50] }}
+        camera={{ position: [0, 0, 50], far: 1000 }}
         style={{ height: "100%" }}
       >
         <ambientLight intensity={0.5} />
         <Suspense fallback={<Loader />}>
-          <Environment files={"home.hdr"} path={"/assets/hdrMaps/"} />
-          <Model props={{ model, textProps, files, guiControls }} />
-          <Ground />
+          <Provider store={store}>
+            <Environment files={"home.hdr"} path={"/assets/hdrMaps/"} />
+            <Model props={{ model, textProps, files, guiControls }} />
+            <Ground />
+          </Provider>
         </Suspense>
       </CanvasWithControls>
       <div ref={guiControls} style={{ display: "none" }}>

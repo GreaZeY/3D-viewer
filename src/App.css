@@ -1,6 +1,7 @@
 :root {
   --color: rgb(255, 102, 0);
   --Pcolor: rgba(255, 102, 0, 0.507);
+  --background-color: #363636
 }
 
 * {

@@ -9,6 +9,8 @@ import DropDownButton from "./Components/CustomComponents/DropDownButton";
 import { muiTheme } from "./Components/Styles/MuiTheme";
 import { ThemeProvider } from "@material-ui/styles";
 import CustomFileInput from "./Components/CustomComponents/CustomFileInput";
+import ToolBar from "./Components/ToolBar/ToolBar";
+
 const upSvg = {
   marginTop: "0px",
   marginRight: ".5rem",
@@ -112,6 +114,7 @@ const App = () => {
             <span>Upload Your Model</span>
           </div>
         )}
+        <ToolBar/>
       </div>
     </ThemeProvider>
   );
