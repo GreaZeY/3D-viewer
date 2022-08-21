@@ -1,19 +1,20 @@
 import D3text from "./D3text";
 import D3model from "./D3model";
 import { useEffect, useRef, useState } from "react";
-import { useThree, extend } from "@react-three/fiber";
+import { useThree, extend, useFrame } from "@react-three/fiber";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
 import { OrbitControls } from "@react-three/drei";
 import { useControl } from "react-three-gui";
 import {
   ColorInput,
   MaterialControls,
-  ChangeMode,
 } from "./GuiControlsComponents/controlComponents";
 import { useSelector } from "react-redux";
 import { materialProps } from "../constants/defaulProps";
 
 extend({ TransformControls });
+
+let clickAway = false;
 
 const Model = ({ props }) => {
   const { model, textProps, files, guiControls } = props;
@@ -34,15 +35,16 @@ const Model = ({ props }) => {
   useEffect(() => {
     // listeners
     if (transform.current) {
+      closeControls()
       // disabling Orbit Controls when transform controls are enabled
       const tControls = transform.current;
       tControls.addEventListener("dragging-changed", disableOrbitControls);
-      //   domElement.addEventListener("click", canvasClickListener);
+      domElement.addEventListener("click", canvasClickListener);
 
       // cleanup for listeners
       return () => {
         tControls.removeEventListener("dragging-changed", disableOrbitControls);
-        // domElement.removeEventListener("click", canvasClickListener);
+        domElement.removeEventListener("click", canvasClickListener);
       };
     }
   }, []);
@@ -59,12 +61,6 @@ const Model = ({ props }) => {
     component: MaterialControls,
   });
 
-  // const mode = useControl("Mode", {
-  //   type: "custom",
-  //   value: "translate",
-  //   component: ChangeMode,
-  // });
-
   useEffect(() => {
     if (!selectedObject) return;
     console.log(materialProperties);
@@ -74,11 +70,42 @@ const Model = ({ props }) => {
   }, [color, materialProperties]);
 
   const attachTransformAndGuiControls = (e) => {
-    if(tool.type!=='transform') return
+    if (tool.type !== "transform") return;
     transform.current.attach(e.object);
     guiControls.current.style.display = "block";
     setSelectedObject(e.object);
   };
+
+  // hide transform and gui controls
+  const closeControls = () => {
+    transform.current?.detach();
+    guiControls.current.style.display = "none";
+  };
+
+  // click away listener for transform controls
+  const canvasClickListener = () => {
+    if (clickAway) {
+      closeControls();
+      clickAway = !clickAway;
+    }
+  };
+  // three render loop
+  useFrame((state) => {
+    // click away listener for transform controls
+    let children = [model.current];
+    transform.current?.children[0].traverse((kid) => {
+      if (kid.type === "Mesh") children.push(kid);
+    });
+
+    let intersectsTrans = state.raycaster.intersectObjects(children);
+    console.log(intersectsTrans);
+    if (intersectsTrans.length > 0) {
+      clickAway = false;
+    } else {
+      clickAway = true;
+    }
+  });
+
   return (
     <>
       <OrbitControls ref={controls} />
@@ -92,8 +119,11 @@ const Model = ({ props }) => {
       <transformControls
         ref={transform}
         args={[camera, domElement]}
-        onUpdate={(e) => e.detach()}
-        mode={tool.type==='transform'?tool.selectedTool.toLowerCase():'translate'}
+        mode={
+          tool.type === "transform"
+            ? tool.selectedTool.toLowerCase()
+            : "translate"
+        }
       />
     </>
   );
