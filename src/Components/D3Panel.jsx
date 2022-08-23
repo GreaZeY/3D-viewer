@@ -10,7 +10,7 @@ import store from "../store";
 
 const CanvasWithControls = withControls(Canvas);
 
-const D3panel = ({ model, textProps, files }) => {
+const D3panel = ({ model, textProps, files, bumpMap }) => {
   const guiControls = useRef();
   return (
     <Controls.Provider>
@@ -23,7 +23,7 @@ const D3panel = ({ model, textProps, files }) => {
         <Suspense fallback={<Loader />}>
           <Provider store={store}>
             <Environment files={"home.hdr"} path={"/assets/hdrMaps/"} />
-            <Model props={{ model, textProps, files, guiControls }} />
+            <Model props={{ model, textProps, files, guiControls,bumpMap }} />
             <Ground />
           </Provider>
         </Suspense>

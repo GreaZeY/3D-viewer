@@ -17,12 +17,12 @@ const upSvg = {
   fontSize: "1.2rem",
   strokeWidth: "30",
 };
-
+let bumpMap ={}
 const App = () => {
-  const [text, setText] = useState("Pace");
+  const [text, setText] = useState("");
   const [showDropPreview, setShowDropPreview] = useState(false);
   const [fontSize, setFontSize] = useState(10);
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState(null);
   const model = useRef();
   const alert = useAlert();
   const [exportLoading, setExportLoading] = useState(false);
@@ -79,8 +79,9 @@ const App = () => {
             onChange={(e) => setFontSize(e.target.value)}
             value={fontSize}
           />
-          <CustomFileInput
+          {/* <CustomFileInput
             label="Import"
+            // accept={".gltf,.stl,.fbx,.obj"}
             style={{
               fontSize: "1rem",
               borderRadius: "5px",
@@ -90,6 +91,20 @@ const App = () => {
             icon={<AiOutlineUpload style={upSvg} />}
             onChange={(e) => {
               setFiles((prevFiles) => [...prevFiles, ...e.target.files]);
+            }}
+          /> */}
+          <CustomFileInput
+            label="Import Map"
+            // accept={"image/*"}
+            style={{
+              fontSize: "1rem",
+              borderRadius: "5px",
+              cursor: "pointer",
+              height: "2.2rem",
+            }}
+            // icon={<AiOutlineUpload style={upSvg} />}
+            onChange={(e) => {
+              setFiles(e.target.files[0]);
             }}
           />
           <DropDownButton
@@ -108,13 +123,18 @@ const App = () => {
           />
         </div>
         <p className="tip">Click to control objects in 3D space.</p>
-        <D3panel textProps={{ text, fontSize }} files={files} model={model} />
+        <D3panel
+          textProps={{ text, fontSize }}
+          files={files}
+          bumpMap={bumpMap}
+          model={model}
+        />
         {showDropPreview && (
           <div className="drag-n-drop-preview">
             <span>Upload Your Model</span>
           </div>
         )}
-        <ToolBar/>
+        <ToolBar />
       </div>
     </ThemeProvider>
   );
