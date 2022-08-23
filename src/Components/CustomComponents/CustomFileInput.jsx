@@ -1,4 +1,4 @@
-const CustomFileInput = ({ label, onChange, style, icon }) => {
+const CustomFileInput = ({ label, onChange, style, icon, accept }) => {
   return (
     <>
       <label style={style} htmlFor="import">
@@ -8,7 +8,7 @@ const CustomFileInput = ({ label, onChange, style, icon }) => {
       <input
         type="file"
         id="import"
-        accept=".gltf,.stl,.fbx,.obj"
+        accept={accept}
         hidden
         onChange={onChange}
       />

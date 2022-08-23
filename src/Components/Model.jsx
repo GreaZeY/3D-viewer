@@ -11,13 +11,14 @@ import {
 } from "./GuiControlsComponents/controlComponents";
 import { useSelector } from "react-redux";
 import { materialProps } from "../constants/defaulProps";
+import Pendant from "./Pendant";
 
 extend({ TransformControls });
 
 let clickAway = false;
 
 const Model = ({ props }) => {
-  const { model, textProps, files, guiControls } = props;
+  const { model, textProps, files, guiControls, bumpMap } = props;
   const [selectedObject, setSelectedObject] = useState(null);
 
   const tool = useSelector((state) => state.tool);
@@ -98,7 +99,6 @@ const Model = ({ props }) => {
     });
 
     let intersectsTrans = state.raycaster.intersectObjects(children);
-    console.log(intersectsTrans);
     if (intersectsTrans.length > 0) {
       clickAway = false;
     } else {
@@ -111,10 +111,11 @@ const Model = ({ props }) => {
       <OrbitControls ref={controls} />
       <object3D ref={model} onClick={attachTransformAndGuiControls}>
         <D3text props={{ textProps }} />
-        {files.length &&
+        {/* {files.length &&
           files.map((file) => (
             <D3model key={file.name} props={{ file, model }} />
-          ))}
+          ))} */}
+          <Pendant bumpMap={files}  />
       </object3D>
       <transformControls
         ref={transform}
