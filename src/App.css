@@ -76,11 +76,6 @@
   text-align: center;
 }
 
-svg {
-  background: transparent !important;
-  margin-right: .5rem;
-}
-
 .menu button:hover,
 .menu label:hover {
   background: rgba(230, 224, 224, 0.733);
