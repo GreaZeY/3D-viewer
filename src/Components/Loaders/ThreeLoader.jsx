@@ -1,13 +1,7 @@
-import { Html } from '@react-three/drei'
+import D3text from "../D3text";
 
 const Loader = () => {
-  return (
-    <Html >
-      <div style={{fontSize:'4rem'}} >
-        Loading...
-        </div>
-    </Html>
-  )
-}
+  return <D3text  text={'Loading...'} size={2} color='orange'/>
+};
 
 export default Loader;

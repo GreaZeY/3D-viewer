@@ -1,8 +1,9 @@
 import DropdownSliders from "../CustomComponents/DropDownSliders";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import CustomFileInput from "../CustomComponents/CustomFileInput";
 
 export const ColorInput = ({ value, setValue }) => (
   <div className="centerRow">
@@ -54,4 +55,26 @@ export const ChangeMode = ({ value, setValue }) => (
       <MenuItem value={"scale"}>Scale</MenuItem>
     </Select>
   </FormControl>
+);
+
+export const FileInput = ({ value, setValue }) => (
+  <div style={{ marginTop: "1rem" }}>
+    Map :
+    <CustomFileInput
+      label="Load Map"
+      style={{
+        fontSize: ".8rem",
+        borderRadius: "5px",
+        cursor: "pointer",
+        border: "1px solid var(--color)",
+        padding: ".1rem .5rem",
+        cursor: "pointer",
+        textAlign: "center",
+        borderRadius: "5px",
+        marginLeft: "1rem",
+      }}
+      accept={".png,.jpg,.jpeg"}
+      onChange={(e) => setValue(e.target.files[0])}
+    />
+  </div>
 );

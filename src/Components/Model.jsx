@@ -4,13 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useThree, extend, useFrame } from "@react-three/fiber";
 import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
 import { OrbitControls } from "@react-three/drei";
-import { useControl } from "react-three-gui";
-import {
-  ColorInput,
-  MaterialControls,
-} from "./GuiControlsComponents/controlComponents";
 import { useSelector } from "react-redux";
-import { materialProps } from "../constants/defaulProps";
 
 extend({ TransformControls });
 
@@ -35,7 +29,7 @@ const Model = ({ props }) => {
   useEffect(() => {
     // listeners
     if (transform.current) {
-      closeControls()
+      closeControls();
       // disabling Orbit Controls when transform controls are enabled
       const tControls = transform.current;
       tControls.addEventListener("dragging-changed", disableOrbitControls);
@@ -49,25 +43,20 @@ const Model = ({ props }) => {
     }
   }, []);
 
-  const color = useControl("Color", {
-    type: "custom",
-    value: materialProps.color,
-    component: ColorInput,
-  });
+  const color = "black";
 
-  const materialProperties = useControl("Material Properties", {
-    type: "custom",
-    value: [materialProps.metalness, materialProps.roughness],
-    component: MaterialControls,
-  });
+  const materialProperties = [0, 0];
+
+  const imageMap = null;
 
   useEffect(() => {
     if (!selectedObject) return;
     console.log(materialProperties);
-    selectedObject.material.color.set(color);
-    selectedObject.material.roughness = materialProperties[1];
-    selectedObject.material.metalness = materialProperties[0];
-  }, [color, materialProperties]);
+    let mat = selectedObject.material;
+    mat.color.set(color);
+    mat.roughness = materialProperties[1];
+    mat.metalness = materialProperties[0];
+  }, [color, materialProperties, imageMap]);
 
   const attachTransformAndGuiControls = (e) => {
     if (tool.type !== "transform") return;
@@ -98,7 +87,6 @@ const Model = ({ props }) => {
     });
 
     let intersectsTrans = state.raycaster.intersectObjects(children);
-    console.log(intersectsTrans);
     if (intersectsTrans.length > 0) {
       clickAway = false;
     } else {
@@ -110,11 +98,12 @@ const Model = ({ props }) => {
     <>
       <OrbitControls ref={controls} />
       <object3D ref={model} onClick={attachTransformAndGuiControls}>
-        <D3text props={{ textProps }} />
+        <D3text {...textProps}  metalness='.8' roughness='0' color='white'/>
         {files.length &&
           files.map((file) => (
             <D3model key={file.name} props={{ file, model }} />
           ))}
+        {/* <Box bumpMap={texture}/> */}
       </object3D>
       <transformControls
         ref={transform}

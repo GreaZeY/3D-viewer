@@ -1,15 +1,14 @@
 import React, { useState, useRef } from "react";
-import "./App.css";
 import { AiOutlineUpload } from "react-icons/ai";
-import Spinner from "./Components/Loaders/Spinner";
-import D3panel from "./Components/D3Panel";
 import { useAlert } from "react-alert";
-import { exportTypes, exportFile } from "./utils/exporters";
-import DropDownButton from "./Components/CustomComponents/DropDownButton";
-import { muiTheme } from "./Components/Styles/MuiTheme";
-import { ThemeProvider } from "@material-ui/styles";
-import CustomFileInput from "./Components/CustomComponents/CustomFileInput";
-import ToolBar from "./Components/ToolBar/ToolBar";
+import { ThemeProvider } from "@mui/material/styles";
+import { muiTheme } from "./Styles/MuiTheme";
+import CustomFileInput from "./CustomComponents/CustomFileInput";
+import DropDownButton from "./CustomComponents/DropDownButton";
+import { exportFile, exportTypes } from "@/utils/exporters";
+import Spinner from "./Loaders/Spinner";
+import ToolBar from "./ToolBar/ToolBar";
+import D3panel from "./D3Panel";
 
 const upSvg = {
   marginTop: "0px",
@@ -19,7 +18,7 @@ const upSvg = {
 };
 
 const App = () => {
-  const [text, setText] = useState("Pace");
+  const [text, setText] = useState("");
   const [showDropPreview, setShowDropPreview] = useState(false);
   const [fontSize, setFontSize] = useState(10);
   const [files, setFiles] = useState([]);
@@ -87,6 +86,7 @@ const App = () => {
               cursor: "pointer",
               height: "2.2rem",
             }}
+            accept={".gltf,.stl,.fbx,.obj"}
             icon={<AiOutlineUpload style={upSvg} />}
             onChange={(e) => {
               setFiles((prevFiles) => [...prevFiles, ...e.target.files]);
@@ -108,13 +108,13 @@ const App = () => {
           />
         </div>
         <p className="tip">Click to control objects in 3D space.</p>
-        <D3panel textProps={{ text, fontSize }} files={files} model={model} />
+        <D3panel textProps={{ text, size:fontSize }} files={files} model={model} />
         {showDropPreview && (
           <div className="drag-n-drop-preview">
             <span>Upload Your Model</span>
           </div>
         )}
-        <ToolBar/>
+        <ToolBar />
       </div>
     </ThemeProvider>
   );

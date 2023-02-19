@@ -1,5 +1,5 @@
-import { createTheme } from "@material-ui/core/styles";
-import { orange } from "@material-ui/core/colors";
+import { createTheme } from "@mui/material/styles";
+import { orange } from "@mui/material/colors";
 
 export const muiTheme = createTheme({
   palette: {
