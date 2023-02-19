@@ -1,38 +1,16 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# [3D file viewer(Blend da vinci)](https://blend-da-vinci.vercel.app/)
 
-## Getting Started
+[![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=blend-da-vinci.vercel.app)](https://blend-da-vinci.vercel.app/)
 
-First, run the development server:
+This app lets you import 3d models and then you can change things as you want and can be exported as well.
+- You can also use this as a 3d file conversion tool.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+# Supported Files
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- gLTF/GLB : gLTF/GLB is a neutral, open source format. The Khronos Group created this format for 3D web, AR, VR, Games and 3D advertising. Its the first really well-defined standard for 3D.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- FBX : FBX is a proprietary 3D file format. Kardara originally developed this format. AutoDesk then purchased them in 2006 and continued supporting FBX. It is widely used in the film and video game industry. 
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+- OBJ : OBJ is a neutral 3D format when used as an ASCII variant. However, when used as a binary variant, it is proprietary. 3D printing, graphics, and 3D scanning all use this file format thanks in part to its ability to store geometry as well as color and texture information. 
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- STL : This 3D file format is most popular for 3D printing. It is a neutral 3D file format. This file format only stores geometry information.
