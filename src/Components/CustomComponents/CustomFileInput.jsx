@@ -1,17 +1,11 @@
-const CustomFileInput = ({ label, onChange, style, icon }) => {
+const CustomFileInput = ({ label = "Choose File", style, icon, ...props }) => {
   return (
     <>
-      <label style={style} htmlFor="import">
-        {icon}
+      <label style={style} htmlFor={label}>
+        {icon && icon}
         {label}
       </label>
-      <input
-        type="file"
-        id="import"
-        accept=".gltf,.stl,.fbx,.obj"
-        hidden
-        onChange={onChange}
-      />
+      <input type="file" id={label} hidden {...props} />
     </>
   );
 };

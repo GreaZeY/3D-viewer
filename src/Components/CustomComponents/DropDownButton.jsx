@@ -1,14 +1,14 @@
 import { useState, useRef } from "react";
-import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { AiOutlineDownload } from "react-icons/ai";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuList from "@material-ui/core/MenuList";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import Popper from "@mui/material/Popper";
+import MenuList from "@mui/material/MenuList";
 const downSvg = {
   marginTop: "0px",
   marginRight: ".5rem",
@@ -46,7 +46,8 @@ const DropDownButton = ({ options, loading, loader, getSelectedIndex }) => {
           size="small"
           style={{
             background: "transparent",
-            border: "1px solid #var(--color)",
+            border: "1px solid var(--color)",
+            color: "var(--color)",
           }}
           onClick={() => getSelectedIndex(selectedIndex)}
         >

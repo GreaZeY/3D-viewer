@@ -53,7 +53,8 @@
   padding-top: 0;
 }
 
-.menu label {
+.menu label,
+.custom-input-label {
   border: 1px solid var(--color);
   padding: .5vmax 1vmax;
   margin-right: 2vmax;

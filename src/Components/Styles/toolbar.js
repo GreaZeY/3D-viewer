@@ -1,7 +1,9 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "tss-react/mui";
+
 const width = "2.2rem",
   height = "2.2rem";
-export const toolbarStyles = makeStyles({
+
+const styles = {
   toolbar: {
     display: "flex",
     position: "absolute",
@@ -34,4 +36,6 @@ export const toolbarStyles = makeStyles({
       fill: "var(--background-color)",
     },
   },
-});
+};
+
+export const toolbarStyles = makeStyles()(() => styles);

@@ -1,18 +1,9 @@
 import D3text from "./D3text";
 import D3model from "./D3model";
-import { useEffect, useRef, useState } from "react";
-import { useThree, extend, useFrame } from "@react-three/fiber";
-import { TransformControls } from "three/examples/jsm/controls/TransformControls.js";
-import { OrbitControls } from "@react-three/drei";
-import { useControl } from "react-three-gui";
-import {
-  ColorInput,
-  MaterialControls,
-} from "./GuiControlsComponents/controlComponents";
-import { useSelector } from "react-redux";
-import { materialProps } from "../constants/defaulProps";
-
-extend({ TransformControls });
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useThree, useFrame } from "@react-three/fiber";
+import Controls from "@/Tools/Controls";
+import useUpdateControlValues from "@/Hooks/useUpdateControlValues";
 
 let clickAway = false;
 
@@ -20,75 +11,46 @@ const Model = ({ props }) => {
   const { model, textProps, files, guiControls } = props;
   const [selectedObject, setSelectedObject] = useState(null);
 
-  const tool = useSelector((state) => state.tool);
-
   const transform = useRef();
-  const controls = useRef();
+
   const {
-    camera,
     gl: { domElement },
   } = useThree();
 
-  const disableOrbitControls = (event) =>
-    (controls.current.enabled = !event.value);
+  // hide transform and gui controls
+  const closeControls = useCallback(() => {
+    guiControls.current.style.visibility = "hidden";
+    setSelectedObject(null);
+  }, [guiControls]);
+
+  const { color, metalness, roughness } = useUpdateControlValues(closeControls);
 
   useEffect(() => {
+    closeControls();
     // listeners
-    if (transform.current) {
-      closeControls()
-      // disabling Orbit Controls when transform controls are enabled
-      const tControls = transform.current;
-      tControls.addEventListener("dragging-changed", disableOrbitControls);
-      domElement.addEventListener("click", canvasClickListener);
 
-      // cleanup for listeners
-      return () => {
-        tControls.removeEventListener("dragging-changed", disableOrbitControls);
-        domElement.removeEventListener("click", canvasClickListener);
-      };
-    }
-  }, []);
-
-  const color = useControl("Color", {
-    type: "custom",
-    value: materialProps.color,
-    component: ColorInput,
-  });
-
-  const materialProperties = useControl("Material Properties", {
-    type: "custom",
-    value: [materialProps.metalness, materialProps.roughness],
-    component: MaterialControls,
-  });
+    // click away listener for transform controls
+    const canvasClickListener = () => {
+      if (clickAway) {
+        closeControls();
+        clickAway = !clickAway;
+      }
+    };
+    domElement.addEventListener("click", canvasClickListener);
+    // cleanup for listeners
+    return () => {
+      domElement.removeEventListener("click", canvasClickListener);
+    };
+  }, [closeControls, domElement]);
 
   useEffect(() => {
     if (!selectedObject) return;
-    console.log(materialProperties);
-    selectedObject.material.color.set(color);
-    selectedObject.material.roughness = materialProperties[1];
-    selectedObject.material.metalness = materialProperties[0];
-  }, [color, materialProperties]);
+    let mat = selectedObject.material;
+    mat.color.set(color);
+    mat.roughness = roughness;
+    mat.metalness = metalness;
+  }, [color, metalness, roughness, selectedObject]);
 
-  const attachTransformAndGuiControls = (e) => {
-    if (tool.type !== "transform") return;
-    transform.current.attach(e.object);
-    guiControls.current.style.display = "block";
-    setSelectedObject(e.object);
-  };
-
-  // hide transform and gui controls
-  const closeControls = () => {
-    transform.current?.detach();
-    guiControls.current.style.display = "none";
-  };
-
-  // click away listener for transform controls
-  const canvasClickListener = () => {
-    if (clickAway) {
-      closeControls();
-      clickAway = !clickAway;
-    }
-  };
   // three render loop
   useFrame((state) => {
     // click away listener for transform controls
@@ -98,7 +60,6 @@ const Model = ({ props }) => {
     });
 
     let intersectsTrans = state.raycaster.intersectObjects(children);
-    console.log(intersectsTrans);
     if (intersectsTrans.length > 0) {
       clickAway = false;
     } else {
@@ -108,22 +69,20 @@ const Model = ({ props }) => {
 
   return (
     <>
-      <OrbitControls ref={controls} />
-      <object3D ref={model} onClick={attachTransformAndGuiControls}>
-        <D3text props={{ textProps }} />
+      <object3D ref={model} onClick={(e) => setSelectedObject(e.object)}>
+        <D3text {...textProps} metalness=".8" roughness="0" />
         {files.length &&
           files.map((file) => (
             <D3model key={file.name} props={{ file, model }} />
           ))}
+        {/* <Box bumpMap={texture}/> */}
       </object3D>
-      <transformControls
+      \
+      <Controls
         ref={transform}
-        args={[camera, domElement]}
-        mode={
-          tool.type === "transform"
-            ? tool.selectedTool.toLowerCase()
-            : "translate"
-        }
+        selectedObject={selectedObject}
+        closeControls={closeControls}
+        guiControls={guiControls}
       />
     </>
   );

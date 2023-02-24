@@ -1,11 +1,11 @@
 import { useState } from "react";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import Slider from "@material-ui/core/Slider";
-import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import Slider from "@mui/material/Slider";
+import MenuItem from "@mui/material/MenuItem";
 import { commonStyles } from "../Styles/commonStyles";
-import TextField from "@material-ui/core/TextField";
+import TextField from "@mui/material/TextField";
 
 const DropdownSliders = ({
   items,

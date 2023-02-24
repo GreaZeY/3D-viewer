@@ -1,18 +1,17 @@
-import React from "react";
-import { toolbarStyles } from "../Styles/toolbar.js";
-import { baseTools } from "../../constants/tools.js";
+import { changeTool } from "lib/actions/toolActions";
+import { baseTools } from "lib/constants/tools";
 import { useSelector, useDispatch } from "react-redux";
-import { changeTool } from "../../actions/toolActions.js";
+import { toolbarStyles } from "../Styles/toolbar";
 
 const ToolBar = () => {
-  const classes = toolbarStyles();
+  const { classes } = toolbarStyles();
   const { selectedTool } = useSelector((state) => state.tool);
-   const dispatch  = useDispatch();
+  const dispatch = useDispatch();
 
-   const dispatchTool=(e)=>{
+  const dispatchTool = (e) => {
     const tool = e.target.title || e.target.textContent;
-    if (tool) dispatch(changeTool(tool)); 
-   }
+    if (tool) dispatch(changeTool(tool));
+  };
 
   return (
     <div onClick={dispatchTool} className={classes.toolbar}>

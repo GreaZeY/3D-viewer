@@ -1,43 +1,37 @@
 {
-  "name": "stl-viewer",
+  "name": "3d-viewer",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/icons": "^4.11.3",
-    "@material-ui/styles": "^4.11.5",
-    "@react-spring/three": "^9.4.5",
-    "@react-three/drei": "^7.25.5",
-    "@react-three/fiber": "^7.0.21",
-    "@reduxjs/toolkit": "^1.8.5",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/material": "^5.11.9",
+    "@mui/styles": "^5.11.9",
+    "@mui/system": "^5.11.9",
+    "@next/font": "13.1.6",
+    "@react-three/drei": "^9.56.25",
+    "@react-three/fiber": "^8.11.2",
+    "@reduxjs/toolkit": "^1.9.2",
+    "eslint": "8.34.0",
+    "eslint-config-next": "13.1.6",
     "file-saver": "^2.0.5",
-    "react": "^17.0.2",
+    "leva": "^0.9.34",
+    "next": "13.1.6",
+    "next-redux-wrapper": "^8.1.0",
+    "react": "18.2.0",
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",
-    "react-dom": "^17.0.1",
-    "react-icons": "^4.3.1",
-    "react-redux": "^8.0.2",
-    "react-scripts": "5.0.0",
-    "react-three-gui": "^0.4.2",
-    "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.4.1",
-    "three": "^0.135.0"
-  },
-  "scripts": {
-    "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
-    "start": "react-scripts start",
-    "build": "react-scripts build"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "react-dom": "18.2.0",
+    "react-icons": "^4.7.1",
+    "react-redux": "^8.0.5",
+    "three": "^0.149.0",
+    "tss-react": "^4.6.1"
   }
 }
