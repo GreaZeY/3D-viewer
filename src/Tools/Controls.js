@@ -6,13 +6,6 @@ const Controls = forwardRef(
   ({ selectedObject, guiControls, autoRotate = false }, ref) => {
     const tool = useSelector((state) => state.tool);
 
-    const attachTransformAndGuiControls = (selectedObject) => {
-      if (tool.type === "transform") {
-        ref.current.attach(selectedObject);
-        guiControls.current.style.visibility = "visible";
-      }
-    };
-
     if (!selectedObject && ref.current) {
       ref.current.detach();
     }
@@ -21,9 +14,12 @@ const Controls = forwardRef(
       if (!selectedObject) {
         ref.current.detach();
       } else {
-        attachTransformAndGuiControls(selectedObject);
+        if (tool.type === "transform") {
+          ref.current.attach(selectedObject);
+          guiControls.current.style.visibility = "visible";
+        }
       }
-    }, [selectedObject?.uuid]);
+    }, [selectedObject, ref, tool.type, guiControls]);
 
     return (
       <>
@@ -42,4 +38,5 @@ const Controls = forwardRef(
   }
 );
 
+Controls.displayName = "Contrls";
 export default Controls;

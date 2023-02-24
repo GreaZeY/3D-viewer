@@ -1,7 +1,7 @@
 // import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { materialProps } from "lib/constants/defaulProps";
-import { useTexture } from "@react-three/drei";
+// import { useTexture } from "@react-three/drei";
 export const loadModel = (props) => {
   const { file, model } = props;
   import("three/examples/jsm/loaders/STLLoader").then(async (module) => {
@@ -29,12 +29,12 @@ export const loadModel = (props) => {
 };
 
 
-export const loadTexture = (image)=>{
-  if(!image) return null
-  if(typeof image === 'blob' ) image = URL.createObjectURL(image);
+// export const loadTexture = (image)=>{
+//   if(!image) return null
+//   if(typeof image === 'blob' ) image = URL.createObjectURL(image);
 
-  const texture = useTexture(image, (texture) => {
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-  });
-  return texture;
-}
+//   const texture = useTexture(image, (texture) => {
+//     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+//   });
+//   return texture;
+// }
