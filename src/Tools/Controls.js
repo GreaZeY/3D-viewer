@@ -1,69 +1,41 @@
+// import useUpdateControlValues from "@/Hooks/useUpdateControlValues";
 import { OrbitControls, TransformControls } from "@react-three/drei";
 import { forwardRef, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { updateBasePendantSizes } from "../../../lib/actions/designAction";
-import { updateObjectSizes } from "../../../lib/actions/modelAction";
-import { useDeleteSelectedObjects } from "../../Hooks/useDeleteSelectedObjects";
-import { calculateDimensions } from "../utils/threeUtils";
-import useUpdateControlValues from "../../Hooks/useUpdateControlValues";
-
+import { useSelector } from "react-redux";
 
 const Controls = forwardRef(
-  ({ selection, closeControls, autoRotate = false }, ref) => {
-    const dispatch = useDispatch();
+  ({ selectedObject, guiControls, closeControls, autoRotate = false }, ref) => {
+    const tool = useSelector((state) => state.tool);
 
-    const { Mode, setControlProps } = useUpdateControlValues(
-      selection,
-      closeControls
-    );
+    // useUpdateControlValues(selectedObject, closeControls);
 
-    useDeleteSelectedObjects(selection, closeControls);
+    const attachTransformAndGuiControls = (selectedObject) => {
+      if (tool.type !== "transform") {
+        ref.current.attach(selectedObject);
+        guiControls.current.style.display = "block";
+      }
+    };
 
     useEffect(() => {
-      const tControls = ref.current;
-      if (tControls) {
-        closeControls();
-        tControls.addEventListener("dragging-changed", updateAttachedObj);
-      }
-      return () => {
-        tControls.removeEventListener("dragging-changed", updateAttachedObj);
-      };
-    }, []);
-
-    const updateAttachedObj = (e) => {
-      if (e.value) return;
-      //updating object transform
-      const obj = e.target.object;
-      const geometry = obj.geometry;
-      const newSizes = calculateDimensions(geometry.boundingBox);
-      const x = obj.scale.x * newSizes.x,
-        y = obj.scale.y * newSizes.y,
-        z = obj.scale.z * newSizes.z;
-
-      obj.scale.set(1, 1, 1);
-
-      if (obj.userData.group === "base") {
-        dispatch(
-          updateBasePendantSizes({ length: x, height: y, thickness: z })
-        );
+      if (!selectedObject) {
+        ref.current.detach();
       } else {
-        const objectData = {
-          ...obj.userData,
-          sizes: newSizes,
-          position: obj.position,
-          rotation: obj.rotation,
-        };
-
-        dispatch(updateObjectSizes(objectData));
+        attachTransformAndGuiControls(selectedObject);
       }
-
-      setControlProps({ x, y, z });
-    };
+    }, [selectedObject?.uuid]);
 
     return (
       <>
         <OrbitControls enableDamping makeDefault autoRotate={autoRotate} />
-        <TransformControls ref={ref} mode={Mode} />
+        <TransformControls
+          ref={ref}
+          userData={{ tool }}
+          mode={
+            tool.type === "transform"
+              ? tool.selectedTool.toLowerCase()
+              : "translate"
+          }
+        />
       </>
     );
   }
