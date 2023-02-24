@@ -17,27 +17,21 @@ const D3panel = ({ model, textProps, files }) => {
       >
         <ambientLight intensity={1} />
         <Suspense fallback={<Loader />}>
-          {/* <Provider store={store}> */}
           <Environment files={"home.hdr"} path={"/assets/hdrMaps/"} />
           <Model props={{ model, textProps, files, guiControls }} />
           <Ground />
-          {/* </Provider> */}
         </Suspense>
       </Canvas>
-      <div ref={guiControls} style={{ display: "none" }}>
+      <div ref={guiControls}>
         <Leva
           hideCopyButton={true}
           theme={{
             colors: {
-              elevation1: "black",
-              elevation2: "white",
-              elevation3: "white",
-              accent1: "#e8a60f",
-              accent2: "#e8a60f",
-              accent3: "#e8a60f",
-              highlight1: "#e8a60f",
-              highlight3: "#FEDB37",
-              vivid1: "#e8a60f",
+              accent1: "var(--color)",
+              accent2: "var(--color)",
+              accent3: "var(--color)",
+              highlight1: "var(--color)",
+              vivid1: "var(--color)",
             },
           }}
           // hidden // default = false, when true the GUI is hidden

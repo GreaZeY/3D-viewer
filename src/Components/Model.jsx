@@ -3,6 +3,7 @@ import D3model from "./D3model";
 import { useEffect, useRef, useState } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import Controls from "@/Tools/Controls";
+import useUpdateControlValues from "@/Hooks/useUpdateControlValues";
 
 let clickAway = false;
 
@@ -18,9 +19,11 @@ const Model = ({ props }) => {
 
   // hide transform and gui controls
   const closeControls = () => {
-    guiControls.current.style.display = "none";
+    guiControls.current.style.visibility = "hidden";
     setSelectedObject(null);
   };
+
+  const { color, metalness, roughness } = useUpdateControlValues(closeControls);
 
   useEffect(() => {
     closeControls();
@@ -32,19 +35,13 @@ const Model = ({ props }) => {
     };
   }, []);
 
-  const color = "white";
-
-  const materialProperties = [0, 0];
-
-  const imageMap = null;
-
   useEffect(() => {
     if (!selectedObject) return;
     let mat = selectedObject.material;
     mat.color.set(color);
-    mat.roughness = materialProperties[1];
-    mat.metalness = materialProperties[0];
-  }, [color, materialProperties, imageMap]);
+    mat.roughness = roughness;
+    mat.metalness = metalness;
+  }, [color, metalness, roughness]);
 
   // click away listener for transform controls
   const canvasClickListener = () => {
