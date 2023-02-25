@@ -1,4 +1,4 @@
-import poppins from "./fonts/Poppins.json";
+import poppins from "../fonts/poppins";
 import { Text3D } from "@react-three/drei";
 
 const D3text = (props) => {

@@ -20,7 +20,9 @@ export default function Home() {
         <link rel="icon" href="/vinci.png" />
       </Head>
       {domLoaded ? (
-        <App />
+        <div style={{height:'100vh'}} >
+          <App />
+        </div>
       ) : (
         <div
           style={{

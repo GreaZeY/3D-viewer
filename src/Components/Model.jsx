@@ -1,4 +1,4 @@
-import D3text from "./D3text";
+import D3text from "./Objects/D3text";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import Controls from "@/Tools/Controls";
