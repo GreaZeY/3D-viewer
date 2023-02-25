@@ -28,6 +28,7 @@ const styles = {
   icon: {
     fontSize: "1.3rem",
     margin: 0,
+    pointerEvents:'none'
   },
   selected: {
     background: "var(--color)",

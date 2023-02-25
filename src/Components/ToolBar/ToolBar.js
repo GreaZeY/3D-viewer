@@ -25,7 +25,7 @@ const ToolBar = () => {
               : classes.tool
           }
         >
-          <Icon className={classes.icon} title={tool} />
+          <Icon className={classes.icon} />
         </div>
       ))}
     </div>
