@@ -2,8 +2,7 @@
 import * as THREE from "three";
 import { materialProps } from "lib/constants/defaulProps";
 // import { useTexture } from "@react-three/drei";
-export const loadModel = (props) => {
-  const { file, model } = props;
+export const loadModel = (file, model) => {
   import("three/examples/jsm/loaders/STLLoader").then(async (module) => {
     const stlLoader = new module.STLLoader();
     stlLoader.load(
@@ -25,7 +24,7 @@ export const loadModel = (props) => {
       }
     );
   });
-  return null
+  return null;
 };
 
 

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import Controls from "@/Tools/Controls";
 import useUpdateControlValues from "@/Hooks/useUpdateControlValues";
+import { materialProps } from "lib/constants/defaulProps";
 
 let clickAway = false;
 
@@ -70,10 +71,10 @@ const Model = ({ props }) => {
   return (
     <>
       <object3D ref={model} onClick={(e) => setSelectedObject(e.object)}>
-        <D3text {...textProps} metalness=".8" roughness="0" />
+        <D3text {...textProps} {...materialProps} />
         {files.length &&
           files.map((file) => (
-            <D3model key={file.name} props={{ file, model }} />
+            <D3model key={file.name} file={file} model={model} />
           ))}
         {/* <Box bumpMap={texture}/> */}
       </object3D>
