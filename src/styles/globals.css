@@ -13,6 +13,11 @@
   color: var(--color);
 }
 
+body{
+  background: var(--background-color);
+}
+
+
 ::placeholder {
   color: var(--Pcolor);
   opacity: 1;

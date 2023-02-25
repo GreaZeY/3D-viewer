@@ -78,7 +78,6 @@ const Model = ({ props }) => {
           ))}
         {/* <Box bumpMap={texture}/> */}
       </object3D>
-      \
       <Controls
         ref={transform}
         selectedObject={selectedObject}
