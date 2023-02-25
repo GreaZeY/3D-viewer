@@ -1,48 +1,35 @@
 import React, { useState, useRef } from "react";
-import { AiOutlineUpload } from "react-icons/ai";
 import { useAlert } from "react-alert";
 import { ThemeProvider } from "@mui/material/styles";
 import { muiTheme } from "./Styles/MuiTheme";
-import CustomFileInput from "./CustomComponents/CustomFileInput";
 import DropDownButton from "./CustomComponents/DropDownButton";
 import { exportFile, exportTypes } from "@/utils/exporters";
 import Spinner from "./Loaders/Spinner";
 import ToolBar from "./ToolBar/ToolBar";
 import D3panel from "./D3Panel";
-
-const upSvg = {
-  marginTop: "0px",
-  marginRight: ".5rem",
-  fontSize: "1.2rem",
-  strokeWidth: "30",
-};
+import ImportObject from "./Features/ImportObject";
+import { useDispatch } from "react-redux";
+import { prepareObjectsAndAdd } from "lib/actions/objectAction";
 
 const App = () => {
   const [text, setText] = useState("");
   const [showDropPreview, setShowDropPreview] = useState(false);
   const [fontSize, setFontSize] = useState(10);
-  const [files, setFiles] = useState([]);
   const model = useRef();
   const alert = useAlert();
   const [exportLoading, setExportLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   const getDropedFiles = (e) => {
     e.preventDefault();
     setShowDropPreview(false);
-    console.log(e);
-    const Files = [];
+    let files = [];
     for (let item of e.dataTransfer?.items) {
-      let file = item.getAsFile();
-      if (!file.name.endsWith(".stl")) {
-        alert.error(
-          // "Please Upload a 3d file (stl, obj, gltf/glb, or fbx)!"
-          `${file.name} is not a 3D file!`
-        );
-      } else {
-        Files.push(file);
-      }
+      const file = item.getAsFile();
+      files.push(file);
     }
-    setFiles((prevFiles) => [...prevFiles, ...Files]);
+    dispatch(prepareObjectsAndAdd(files, alert.error));
   };
 
   const getSelectedIndex = async (index) => {
@@ -78,20 +65,7 @@ const App = () => {
             onChange={(e) => setFontSize(e.target.value)}
             value={fontSize}
           />
-          <CustomFileInput
-            label="Import"
-            style={{
-              fontSize: "1rem",
-              borderRadius: "5px",
-              cursor: "pointer",
-              height: "2.2rem",
-            }}
-            accept={".gltf,.stl,.fbx,.obj"}
-            icon={<AiOutlineUpload style={upSvg} />}
-            onChange={(e) => {
-              setFiles((prevFiles) => [...prevFiles, ...e.target.files]);
-            }}
-          />
+          <ImportObject />
           <DropDownButton
             options={exportTypes}
             loading={exportLoading}
@@ -108,7 +82,10 @@ const App = () => {
           />
         </div>
         <p className="tip">Click to control objects in 3D space.</p>
-        <D3panel textProps={{ text, size:fontSize }} files={files} model={model} />
+        <D3panel
+          textProps={{ text, size: fontSize }}
+          ref={model}
+        />
         {showDropPreview && (
           <div className="drag-n-drop-preview">
             <span>Upload Your Model</span>

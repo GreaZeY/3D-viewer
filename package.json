@@ -1,12 +1,10 @@
 {
   "name": "3d-viewer",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -19,8 +17,6 @@
     "@react-three/drei": "^9.56.25",
     "@react-three/fiber": "^8.11.2",
     "@reduxjs/toolkit": "^1.9.2",
-    "eslint": "8.34.0",
-    "eslint-config-next": "13.1.6",
     "file-saver": "^2.0.5",
     "leva": "^0.9.34",
     "next": "13.1.6",

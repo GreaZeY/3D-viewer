@@ -1,15 +1,15 @@
 import D3text from "./D3text";
-import D3model from "./D3model";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import Controls from "@/Tools/Controls";
 import useUpdateControlValues from "@/Hooks/useUpdateControlValues";
 import { materialProps } from "lib/constants/defaulProps";
+import Objects from "./Objects/Objects";
 
 let clickAway = false;
 
-const Model = ({ props }) => {
-  const { model, textProps, files, guiControls } = props;
+const Model = forwardRef(({ props }, ref) => {
+  const { textProps, guiControls } = props;
   const [selectedObject, setSelectedObject] = useState(null);
 
   const transform = useRef();
@@ -55,7 +55,7 @@ const Model = ({ props }) => {
   // three render loop
   useFrame((state) => {
     // click away listener for transform controls
-    let children = [model.current];
+    let children = [ref.current];
     transform.current?.children[0].traverse((kid) => {
       if (kid.type === "Mesh") children.push(kid);
     });
@@ -70,12 +70,9 @@ const Model = ({ props }) => {
 
   return (
     <>
-      <object3D ref={model} onClick={(e) => setSelectedObject(e.object)}>
+      <object3D ref={ref} onClick={(e) => setSelectedObject(e.object)}>
         <D3text {...textProps} {...materialProps} />
-        {files.length &&
-          files.map((file) => (
-            <D3model key={file.name} file={file} model={model} />
-          ))}
+        <Objects />
         {/* <Box bumpMap={texture}/> */}
       </object3D>
       <Controls
@@ -86,6 +83,6 @@ const Model = ({ props }) => {
       />
     </>
   );
-};
+});
 
 export default Model;

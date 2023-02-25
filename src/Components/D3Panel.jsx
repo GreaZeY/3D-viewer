@@ -1,4 +1,4 @@
-import { Suspense, useRef } from "react";
+import { forwardRef, Suspense, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import Loader from "./Loaders/ThreeLoader";
@@ -6,7 +6,7 @@ import Model from "./Model";
 import Ground from "./Ground";
 import { Leva } from "leva";
 
-const D3panel = ({ model, textProps, files }) => {
+const D3panel = forwardRef(({ textProps }, ref) => {
   const guiControls = useRef();
   return (
     <>
@@ -18,7 +18,7 @@ const D3panel = ({ model, textProps, files }) => {
         <ambientLight intensity={1} />
         <Suspense fallback={<Loader />}>
           <Environment files={"home.hdr"} path={"/assets/hdrMaps/"} />
-          <Model props={{ model, textProps, files, guiControls }} />
+          <Model ref={ref} props={{ textProps, guiControls }} />
           <Ground />
         </Suspense>
       </Canvas>
@@ -39,6 +39,6 @@ const D3panel = ({ model, textProps, files }) => {
       </div>
     </>
   );
-};
+});
 
 export default D3panel;
