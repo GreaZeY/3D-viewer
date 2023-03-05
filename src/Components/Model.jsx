@@ -31,8 +31,8 @@ const Model = forwardRef(({ props }, ref) => {
     <>
       <object3D
         ref={ref}
-        onClick={(e) => setSelectedObject(e.object)}
-        onPointerMissed={(e) => closeControls()}
+        onClick={({ object }) => setSelectedObject(object)}
+        onPointerMissed={closeControls}
       >
         <D3text {...textProps} {...materialProps} />
         <Objects />
