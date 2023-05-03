@@ -9,6 +9,7 @@ const D3text = (props) => {
       height={2}
       {...props}
       onUpdate={({ geometry }) => geometry.center()}
+      name='text'
     >
       {text}
       <meshStandardMaterial {...props} />

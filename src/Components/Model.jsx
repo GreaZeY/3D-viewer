@@ -4,6 +4,8 @@ import Controls from "@/Tools/Controls";
 import useUpdateControlValues from "@/Hooks/useUpdateControlValues";
 import { materialProps } from "lib/constants/defaulProps";
 import Objects from "./Objects/Objects";
+import * as THREE from "three";
+import { useLoader } from "@react-three/fiber";
 
 const Model = forwardRef(({ props }, ref) => {
   const { textProps, guiControls } = props;
@@ -17,15 +19,30 @@ const Model = forwardRef(({ props }, ref) => {
     setSelectedObject(null);
   }, [guiControls]);
 
-  const { color, metalness, roughness } = useUpdateControlValues(closeControls);
+  const { color, metalness, roughness, Texture } =
+    useUpdateControlValues(closeControls);
+
+    const texture = useLoader(
+      THREE.TextureLoader,
+      Texture ? Texture : defaultTexture
+    );
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(4, 2);
+  console.log(texture);
 
   useEffect(() => {
-    if (!selectedObject) return;
+    if (!selectedObject) return closeControls();
     let mat = selectedObject.material;
     mat.color.set(color);
     mat.roughness = roughness;
     mat.metalness = metalness;
-  }, [color, metalness, roughness, selectedObject]);
+    if (Texture) {
+      mat.normalMap = texture;
+
+      mat.needsUpdate = true;
+    }
+  }, [color, metalness, roughness, selectedObject, texture]);
 
   return (
     <>
@@ -41,7 +58,6 @@ const Model = forwardRef(({ props }, ref) => {
       <Controls
         ref={transform}
         selectedObject={selectedObject}
-        closeControls={closeControls}
         guiControls={guiControls}
       />
     </>
@@ -49,3 +65,7 @@ const Model = forwardRef(({ props }, ref) => {
 });
 
 export default Model;
+
+
+const defaultTexture =
+  "https://media.istockphoto.com/id/1322277517/photo/wild-grass-in-the-mountains-at-sunset.jpg?s=612x612&w=0&k=20&c=6mItwwFFGqKNKEAzv0mv6TaxhLN3zSE43bWmFN--J5w=";
