@@ -22,7 +22,7 @@ const D3panel = forwardRef(({ textProps }, ref) => {
           <Ground />
         </Suspense>
       </Canvas>
-      <div ref={guiControls}>
+      <div style={{zIndex:3}} ref={guiControls}>
         <Leva
           hideCopyButton={true}
           theme={{
