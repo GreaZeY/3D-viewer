@@ -1,10 +1,12 @@
-import { OrbitControls, TransformControls } from "@react-three/drei";
-import { forwardRef, useEffect } from "react";
+import { Html, OrbitControls, TransformControls } from "@react-three/drei";
+import { forwardRef, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
 const Controls = forwardRef(
   ({ selectedObject, guiControls, autoRotate = false }, ref) => {
     const tool = useSelector((state) => state.tool);
+
+    const orbitControls = useRef()
 
     if (!selectedObject && ref.current) {
       ref.current.detach();
@@ -23,7 +25,8 @@ const Controls = forwardRef(
 
     return (
       <>
-        <OrbitControls enableDamping makeDefault autoRotate={autoRotate} />
+        {/* <Html><button onClick={() => orbitControls.current.enabled=!orbitControls.current.enabled} >Toggle OrbitControls</button></Html> */}
+        <OrbitControls ref={orbitControls} enableDamping makeDefault autoRotate={autoRotate} />
         <TransformControls
           ref={ref}
           userData={{ tool }}

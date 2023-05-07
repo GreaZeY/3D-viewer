@@ -1,0 +1,1 @@
+export const imgULR = 'https://images.pexels.com/photos/2380794/pexels-photo-2380794.jpeg?cs=srgb&dl=pexels-kevin-bidwell-2380794.jpg&fm=jpg'
